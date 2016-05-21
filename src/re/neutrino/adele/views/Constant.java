@@ -11,6 +11,7 @@ class Constant {
     static final Color BG_COLOR = new Color(240, 243, 217);
     static final Color BG_LIGHT_COLOR = new Color(218, 199, 158);
     static final Color BG_DARK_COLOR = new Color(166, 135, 102);
+    static final Color BOREDER_COLOR = new Color(88, 54, 46);
     static final String PENTAGO = "Pentago";
     static final String PLAY = "Play";
     static final String PLAY_ONLINE = "Play Online";
