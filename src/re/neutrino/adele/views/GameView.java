@@ -9,7 +9,7 @@ import java.awt.*;
  */
 public class GameView {
     private JFrame frame = new JFrame(Constant.PENTAGO);
-    private PanelDraw panel = new PanelDraw();
+    private BoardView panel = new BoardView();
     private JLabel labelTurn = new JLabel("TURN: WHITE");
 
     public GameView() {

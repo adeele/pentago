@@ -1,7 +1,6 @@
 package re.neutrino.adele;
 
-import re.neutrino.adele.views.GameView;
-import re.neutrino.adele.views.Menu;
+import re.neutrino.adele.controllers.App;
 
 /**
  * Class Launcher:
@@ -9,6 +8,6 @@ import re.neutrino.adele.views.Menu;
  */
 public class Launcher {
     public static void main(String[] args) {
-        new GameView();
+        App app = new App();
     }
 }

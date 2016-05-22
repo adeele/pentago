@@ -1,23 +1,26 @@
 package re.neutrino.adele.views;
 
+import re.neutrino.adele.controllers.MenuCtrl;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Class Menu:
+ * Class MenuView:
  * creates menu layout
  */
-public class Menu {
+public class MenuView {
     private JFrame frame =  new JFrame(Constant.PENTAGO);
     private JPanel panel = new JPanel();
     private JButton buttonPlay = new JButton(Constant.PLAY);
     private JButton buttonPlayOnline = new JButton(Constant.PLAY_ONLINE);
     private JButton buttonQuit = new JButton(Constant.QUIT);
     private JLabel labelPentago = new JLabel(Constant.PENTAGO);
+    private MenuCtrl menuCtrl;
 
-    public Menu() {
+    public MenuView(MenuCtrl menuCtrl) {
         frame.setBounds(500, 150, 800, 800);
         frame.add(panel);
         frame.setVisible(true);
@@ -36,7 +39,7 @@ public class Menu {
         labelPentago.setOpaque(true);
         labelPentago.setForeground(Constant.FG_COLOR);
         labelPentago.setFont(Constant.DEFAULT_FONT_BIG);
-        labelPentago.setBorder(BorderFactory.createEmptyBorder(50, 280, 50, 280));
+        labelPentago.setBorder(BorderFactory.createEmptyBorder(50, 293, 50, 293));
         labelPentago.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         buttonPlay.setBackground(Constant.BG_LIGHT_COLOR);
@@ -44,6 +47,7 @@ public class Menu {
         buttonPlay.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPlay.setForeground(Constant.FG_COLOR);
         buttonPlay.setFont(Constant.DEFAULT_FONT_SMALL);
+        buttonPlay.addActionListener(e -> menuCtrl.buttonPlayCtrl());
 
         buttonPlayOnline.setBackground(Constant.BG_LIGHT_COLOR);
         buttonPlayOnline.setBorder(BorderFactory.createEmptyBorder(30, 100, 30, 100));
@@ -56,6 +60,10 @@ public class Menu {
         buttonQuit.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonQuit.setForeground(Constant.FG_COLOR);
         buttonQuit.setFont(Constant.DEFAULT_FONT_SMALL);
-        buttonQuit.addActionListener(e -> frame.dispose());
+        buttonQuit.addActionListener(e -> disposeFrame());
+    }
+
+    private void disposeFrame() {
+        frame.dispose();
     }
 }

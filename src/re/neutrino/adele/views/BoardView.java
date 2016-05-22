@@ -6,16 +6,17 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * Class PanelDraw
+ * Class BoardView
  * creates panel on witch draws the board
  */
-class PanelDraw extends JPanel {
+class BoardView extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawBoard(g);
     }
+
     private void drawSquare(Graphics2D g2, int x, int y, int size) {
         Rectangle2D.Double square = new Rectangle2D.Double(x, y, size, size);
         g2.setPaint(Constant.BOREDER_COLOR);
