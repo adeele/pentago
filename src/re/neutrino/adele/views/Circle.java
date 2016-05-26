@@ -32,11 +32,15 @@ public class Circle {
        return circle.contains(p.x, p.y);
     }
 
-    public void setBlack() {
+    void setBlack() {
         color = Color.BLACK;
     }
 
-    public void setWhite() {
+    void setWhite() {
         color = Color.WHITE;
+    }
+
+    void setTransparent() {
+        color = GameConstant.BG_DARK_COLOR;
     }
 }

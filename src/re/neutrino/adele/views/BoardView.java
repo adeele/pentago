@@ -1,5 +1,7 @@
 package re.neutrino.adele.views;
 
+import re.neutrino.adele.FieldChangedEvent;
+import re.neutrino.adele.FieldChangedEventListener;
 import re.neutrino.adele.GameConstant;
 import re.neutrino.adele.controllers.BoardCtrl;
 
@@ -12,7 +14,7 @@ import java.awt.event.MouseListener;
  * Class BoardView
  * creates panel on witch draws the board
  */
-public class BoardView {
+public class BoardView implements FieldChangedEventListener {
     private final BoardPanel panel = new BoardPanel();
     private final JLabel labelTurn = new JLabel("TURN: WHITE");
     private final BoardCtrl boardCtrl;
@@ -104,6 +106,26 @@ public class BoardView {
 
     public JPanel getPanel() {
         return panel;
+    }
+
+    @Override
+    public void onFieldChanged(FieldChangedEvent e) {
+        Circle circle = circles[getIndex(e.getX(), e.getY())];
+        switch (e.getBall()) {
+            case BLACK:
+                circle.setBlack();
+                break;
+            case WHITE:
+                circle.setWhite();
+                break;
+            case NONE:
+                circle.setTransparent();
+        }
+        panel.repaint();
+    }
+
+    private int getIndex(int x, int y) {
+        return x + y * 6;
     }
 
     private class BoardPanel extends JPanel{
