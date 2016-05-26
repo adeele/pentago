@@ -1,8 +1,8 @@
 package re.neutrino.adele.controllers;
 
-import re.neutrino.adele.views.BoardView;
-import re.neutrino.adele.views.GameView;
 import re.neutrino.adele.views.MenuView;
+
+import javax.swing.*;
 
 /**
  * Class MenuCtrl
@@ -19,5 +19,17 @@ public class MenuCtrl {
     }
     public void buttonPlayCtrl(){
         app.startGame();
+    }
+
+    void attachToFrame(JFrame rootFrame) {
+        rootFrame.add(menuView.getPanel());
+    }
+
+    void detachFromFrame(JFrame rootFrame) {
+        rootFrame.remove(menuView.getPanel());
+    }
+
+    public void quit() {
+        app.exitGame();
     }
 }

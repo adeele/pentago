@@ -1,5 +1,6 @@
 package re.neutrino.adele.views;
 
+import re.neutrino.adele.GameConstant;
 import re.neutrino.adele.controllers.BoardCtrl;
 
 import javax.swing.*;
@@ -12,10 +13,9 @@ import java.awt.event.MouseListener;
  * creates panel on witch draws the board
  */
 public class BoardView {
-    private final JFrame frame = new JFrame(Constant.PENTAGO);
-    private final BoardPanel root = new BoardPanel();
+    private final BoardPanel panel = new BoardPanel();
     private final JLabel labelTurn = new JLabel("TURN: WHITE");
-    private final BoardCtrl boardCtrl = new BoardCtrl();
+    private final BoardCtrl boardCtrl;
     private final Square[] squares = new Square[] {
             new Square(150, 200, 250),
             new Square(400, 200, 250),
@@ -25,27 +25,26 @@ public class BoardView {
 
     private final Circle[] circles = new Circle[36];
 
-    public BoardView() {
-        initFrame();
-        initRoot();
-        frame.add(root);
+    public BoardView(BoardCtrl boardCtrl) {
+        this.boardCtrl = boardCtrl;
+        initPanel();
         initLabel();
-        root.add(labelTurn);
+        panel.add(labelTurn);
         initPlaces();
     }
 
     private void initLabel() {
-        labelTurn.setBackground(Constant.BG_DARK_COLOR);
+        labelTurn.setBackground(GameConstant.BG_DARK_COLOR);
         labelTurn.setOpaque(true);
-        labelTurn.setForeground(Constant.FG_COLOR);
-        labelTurn.setFont(Constant.DEFAULT_FONT_BIG);
+        labelTurn.setForeground(GameConstant.FG_COLOR);
+        labelTurn.setFont(GameConstant.DEFAULT_FONT_BIG);
         labelTurn.setBorder(BorderFactory.createEmptyBorder(40, 228, 40, 228));
         labelTurn.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 
-    private void initRoot() {
-        root.setLayout(new BoxLayout(root, BoxLayout.Y_AXIS));
-        root.addMouseListener(new MouseListener() {
+    private void initPanel() {
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.addMouseListener(new MouseListener() {
 
 
             @Override
@@ -69,11 +68,6 @@ public class BoardView {
             public void mouseExited(MouseEvent e) {
             }
         });
-    }
-
-    private void initFrame() {
-        frame.setBounds(500, 150, 800, 800);
-        frame.setVisible(true);
     }
 
 
@@ -105,7 +99,11 @@ public class BoardView {
     }
 
     public void repaint() {
-        root.repaint();
+        panel.repaint();
+    }
+
+    public JPanel getPanel() {
+        return panel;
     }
 
     private class BoardPanel extends JPanel{

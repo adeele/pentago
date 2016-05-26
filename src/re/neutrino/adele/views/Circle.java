@@ -1,5 +1,7 @@
 package re.neutrino.adele.views;
 
+import re.neutrino.adele.GameConstant;
+
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
@@ -17,7 +19,7 @@ public class Circle {
     void draw(Graphics2D g2) {
         if(color != null)
             fill(g2, color);
-        g2.setPaint(Constant.BOREDER_COLOR);
+        g2.setPaint(GameConstant.BOREDER_COLOR);
         g2.draw(circle);
     }
 
