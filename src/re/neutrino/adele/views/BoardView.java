@@ -51,7 +51,7 @@ public class BoardView implements FieldChangedEventListener {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                boardCtrl.handleClick(BoardView.this, circles, e.getPoint());
+                boardCtrl.handleClick(circles, e.getPoint());
             }
 
             @Override

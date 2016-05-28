@@ -18,18 +18,25 @@ public class BoardModel implements FieldChangedEventProvider {
     public boolean placeBall(int i) {
         int x = i % 6;
         int y = i / 6;
+        return placeBall(x, y);
+    }
+
+    public boolean placeBall(int x, int y) {
         if(balls[x][y] == Ball.NONE) {
             if(turn == Turn.WHITE) {
                 balls[x][y] = Ball.WHITE;
                 turn = Turn.BLACK;
                 notifyFieldChanged(new FieldChangedEvent(x, y, Ball.WHITE));
+                if(checkWin(x, y, Ball.WHITE))
+                    System.out.println("WHITE WIN!");
             }
             else {
                 balls[x][y] = Ball.BLACK;
                 turn = Turn.WHITE;
                 notifyFieldChanged(new FieldChangedEvent(x, y, Ball.BLACK));
+                if(checkWin(x, y, Ball.BLACK))
+                    System.out.println("BLACK WIN!");
             }
-            //checkWin();
             return true;
         }
         return false;
@@ -66,24 +73,40 @@ public class BoardModel implements FieldChangedEventProvider {
         }
     }
 
-    void checkWin() {
-        for(int i = 0; i < 6; i++) {
-            int counter = 0;
-            for(int j = 0; j < 5; j++) {
-                if (balls[i][j] != Ball.NONE && balls[i][j] == balls[i][j+1])
-                    counter++;
-            }
-            if(counter == 5)
-                System.out.println("WIN");
+    public boolean checkWin(int x, int y, Ball color) {
+        return (checkHorizontal(x, y, color) || checkVertical(x, y, color) || checkOblique(x, y, color));
+    }
+
+    private boolean checkOblique(int x, int y, Ball color) {
+        return countBalls(x, y, 1, 1, color) + countBalls(x, y, -1, -1, color) > 3 ||
+                countBalls(x, y, 1, -1, color) + countBalls(x, y, -1, 1, color) > 3;
+    }
+
+
+
+    private int countBalls(int x, int y, int dx, int dy, Ball color) {
+        x += dx;
+        y += dy;
+        int counter = 0;
+        while(inBounds(x, y)) {
+            if(balls[x][y] != color)
+                break;
+            counter++;
+            x += dx;
+            y += dy;
         }
-        for(int i = 0; i < 5; i++){
-            int counter = 0;
-            for(int j = 0; j < 6; j++) {
-                if (balls[j][i] != Ball.NONE && balls[j][i] == balls[j][i+1])
-                    counter++;
-            }
-            if(counter == 5)
-                System.out.println("WIN");
-        }
+        return counter;
+    }
+
+    private boolean inBounds(int x, int y) {
+        return x >= 0 && y >= 0 && y < 6 && x < 6;
+    }
+
+    private boolean checkVertical(int x, int y, Ball color) {
+        return countBalls(x, y, 1, 0, color) + countBalls(x, y, -1, 0, color) > 3;
+    }
+
+    private boolean checkHorizontal(int x, int y, Ball color) {
+        return countBalls(x, y, 0, 1, color) + countBalls(x, y, 0, -1, color) > 3;
     }
 }

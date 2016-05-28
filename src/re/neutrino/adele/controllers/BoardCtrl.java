@@ -6,8 +6,6 @@ import re.neutrino.adele.views.Circle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Controller for BoardView
@@ -22,7 +20,7 @@ public class BoardCtrl {
         boardModel = new BoardModel();
         boardModel.addFieldChangedEventListener(boardView);
     }
-    public void handleClick(BoardView caller, Circle[] circles, Point point) {
+    public void handleClick(Circle[] circles, Point point) {
         for (int i = 0; i < 36; i++) {
            if (circles[i].contains(point)) {
                boardModel.placeBall(i);
