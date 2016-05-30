@@ -1,10 +1,8 @@
 package re.neutrino.adele.models;
 
-import re.neutrino.adele.Ball;
-import re.neutrino.adele.FieldChangedEvent;
-import re.neutrino.adele.FieldChangedEventListener;
-import re.neutrino.adele.FieldChangedEventProvider;
+import re.neutrino.adele.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -23,23 +21,37 @@ public class BoardModel implements FieldChangedEventProvider {
 
     public boolean placeBall(int x, int y) {
         if(balls[x][y] == Ball.NONE) {
-            if(turn == Turn.WHITE) {
+            if(turn == Turn.WHITE_PLACE_BALL) {
                 balls[x][y] = Ball.WHITE;
-                turn = Turn.BLACK;
+                turn = nextTurn(turn);
                 notifyFieldChanged(new FieldChangedEvent(x, y, Ball.WHITE));
                 if(checkWin(x, y, Ball.WHITE))
                     System.out.println("WHITE WIN!");
+                return true;
             }
-            else {
+            if(turn == Turn.BLACK_PLACE_BALL) {
                 balls[x][y] = Ball.BLACK;
-                turn = Turn.WHITE;
+                turn = nextTurn(turn);
                 notifyFieldChanged(new FieldChangedEvent(x, y, Ball.BLACK));
                 if(checkWin(x, y, Ball.BLACK))
                     System.out.println("BLACK WIN!");
+                return true;
             }
-            return true;
         }
         return false;
+    }
+
+    private Turn nextTurn(Turn turn) {
+        switch(turn) {
+            case WHITE_PLACE_BALL:
+                return Turn.WHITE_ROTATE_BOARD;
+            case WHITE_ROTATE_BOARD:
+                return Turn.BLACK_PLACE_BALL;
+            case BLACK_PLACE_BALL:
+                return Turn.BLACK_ROTATE_BOARD;
+            default:
+                return Turn.WHITE_PLACE_BALL;
+        }
     }
 
     @Override
@@ -59,13 +71,47 @@ public class BoardModel implements FieldChangedEventProvider {
         listeners.remove(listener);
     }
 
-    private enum Turn {
-        WHITE,
-        BLACK
+    public void rotate(Point center, int way) {
+        if(turn == Turn.WHITE_ROTATE_BOARD || turn == Turn.BLACK_ROTATE_BOARD) {
+            swapCorners(center.x, center.y, way);
+            swapEdges(center.x, center.y, way);
+        }
+        checkBoardWin();
+    }
+
+    private boolean checkBoardWin() {
+        for(int i = 0; i < 6; i++) {
+            if (checkWin(i, i, Ball.WHITE))
+                return true;
+            if (checkWin(i, i, Ball.BLACK))
+                return true;
+        }
+        return false;
+    }
+
+    private void swapEdges(int x, int y, int way) {
+        Ball tmp = balls[x - 1][y];
+        swapAndNotify(x - 1, y, balls[x][y - way]);
+        swapAndNotify(x, y - way, balls[x + 1][y]);
+        swapAndNotify(x + 1, y, balls[x][y + way]);
+        swapAndNotify(x, y + way, tmp);
+    }
+
+    private void swapCorners(int x, int y, int way) {
+        Ball tmp = balls[x - 1][y - 1];
+        swapAndNotify(x - 1, y - 1, balls[x + way][y - way]);
+        swapAndNotify(x + way, y - way, balls[x + 1][y + 1]);
+        swapAndNotify(x + 1, y + 1, balls[x - way][y + way]);
+        swapAndNotify(x - way, y + way, tmp);
+    }
+
+    private void swapAndNotify(int x, int y, Ball ball) {
+        balls[x][y] = ball;
+        notifyFieldChanged(new FieldChangedEvent(x, y, balls[x][y]));
     }
 
     public BoardModel() {
-        turn = Turn.WHITE;
+        turn = Turn.WHITE_PLACE_BALL;
         for (int i = 0; i < 6; i++) {
             balls[i] = new Ball[6];
             for(int j = 0; j < 6; j++)

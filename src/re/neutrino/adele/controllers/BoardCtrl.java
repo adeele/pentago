@@ -20,7 +20,7 @@ public class BoardCtrl {
         boardModel = new BoardModel();
         boardModel.addFieldChangedEventListener(boardView);
     }
-    public void handleClick(Circle[] circles, Point point) {
+    public void handleBoardClick(Circle[] circles, Point point) {
         for (int i = 0; i < 36; i++) {
            if (circles[i].contains(point)) {
                boardModel.placeBall(i);
@@ -30,5 +30,29 @@ public class BoardCtrl {
 
     void attachToFrame(JFrame rootFrame) {
         rootFrame.add(boardView.getPanel());
+    }
+
+    public void handleArrowClick(Rectangle[] arrows, Point point) {
+        for (int i = 0; i < 8; i++) {
+            if (arrows[i].contains(point)) {
+                boardModel.rotate(witchSquare(i), witchWay(i));
+            }
+        }
+    }
+
+    private Point witchSquare(int i) {
+        if(i == 0 || i == 1)
+            return new Point(1, 1);
+        if(i == 2 || i == 3)
+            return new Point(1, 4);
+        if(i == 4 || i == 5)
+            return new Point(4, 4);
+        return new Point(4, 1);
+    }
+
+    private int witchWay(int i) {
+        if(i % 2 == 0)
+            return -1;
+        return 1;
     }
 }

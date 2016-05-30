@@ -5,10 +5,14 @@ import re.neutrino.adele.FieldChangedEventListener;
 import re.neutrino.adele.GameConstant;
 import re.neutrino.adele.controllers.BoardCtrl;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Class BoardView
@@ -18,16 +22,41 @@ public class BoardView implements FieldChangedEventListener {
     private final BoardPanel panel = new BoardPanel();
     private final JLabel labelTurn = new JLabel("TURN: WHITE");
     private final BoardCtrl boardCtrl;
+    private final Circle[] circles = new Circle[36];
+    private final Rectangle[] arrows = new Rectangle[] {
+            new Rectangle(110, 200, 40, 100),
+            new Rectangle(150, 160, 100, 40),
+            new Rectangle(550, 160, 100, 40),
+            new Rectangle(650, 200, 40, 100),
+            new Rectangle(650, 600, 40, 100),
+            new Rectangle(550, 700, 100, 40),
+            new Rectangle(150, 700, 100, 40),
+            new Rectangle(110, 600, 40, 100),
+    };
     private final Square[] squares = new Square[] {
             new Square(150, 200, 250),
             new Square(400, 200, 250),
             new Square(150, 450, 250),
             new Square(400, 450, 250)
     };
+    private BufferedImage arrow1, arrow2, arrow3, arrow4, arrow5, arrow6, arrow7, arrow8;
 
-    private final Circle[] circles = new Circle[36];
 
     public BoardView(BoardCtrl boardCtrl) {
+        try {
+            arrow1 = ImageIO.read(new File("/home/adele/studies/pentago/src/re/neutrino/adele/images/arrow1.png"));
+            arrow2 = ImageIO.read(new File("/home/adele/studies/pentago/src/re/neutrino/adele/images/arrow2.png"));
+            arrow3 = ImageIO.read(new File("/home/adele/studies/pentago/src/re/neutrino/adele/images/arrow3.png"));
+            arrow4 = ImageIO.read(new File("/home/adele/studies/pentago/src/re/neutrino/adele/images/arrow4.png"));
+            arrow5 = ImageIO.read(new File("/home/adele/studies/pentago/src/re/neutrino/adele/images/arrow5.png"));
+            arrow6 = ImageIO.read(new File("/home/adele/studies/pentago/src/re/neutrino/adele/images/arrow6.png"));
+            arrow7 = ImageIO.read(new File("/home/adele/studies/pentago/src/re/neutrino/adele/images/arrow7.png"));
+            arrow8 = ImageIO.read(new File("/home/adele/studies/pentago/src/re/neutrino/adele/images/arrow8.png"));
+        }
+        catch (IOException ex) {
+            System.out.println("EXCEPTION");
+        }
+
         this.boardCtrl = boardCtrl;
         initPanel();
         initLabel();
@@ -51,7 +80,8 @@ public class BoardView implements FieldChangedEventListener {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                boardCtrl.handleClick(circles, e.getPoint());
+                boardCtrl.handleBoardClick(circles, e.getPoint());
+                boardCtrl.handleArrowClick(arrows, e.getPoint());
             }
 
             @Override
@@ -100,7 +130,7 @@ public class BoardView implements FieldChangedEventListener {
         }
     }
 
-    public void repaint() {
+    private void repaint() {
         panel.repaint();
     }
 
@@ -121,7 +151,7 @@ public class BoardView implements FieldChangedEventListener {
             case NONE:
                 circle.setTransparent();
         }
-        panel.repaint();
+        repaint();
     }
 
     private int getIndex(int x, int y) {
@@ -132,6 +162,18 @@ public class BoardView implements FieldChangedEventListener {
         @Override
         public void paintComponent(Graphics g) {
             drawBoard(g);
+            drawArrows(g);
         }
+    }
+
+    private void drawArrows(Graphics g) {
+        g.drawImage(arrow1, 150, 160, 100, 40, null);
+        g.drawImage(arrow2, 550, 160, 100, 40, null);
+        g.drawImage(arrow3, 650, 200, 40, 100, null);
+        g.drawImage(arrow4, 650, 600, 40, 100, null);
+        g.drawImage(arrow5, 550, 700, 100, 40, null);
+        g.drawImage(arrow6, 150, 700, 100, 40, null);
+        g.drawImage(arrow7, 110, 600, 40, 100, null);
+        g.drawImage(arrow8, 110, 200, 40, 100, null);
     }
 }
