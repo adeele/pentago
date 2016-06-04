@@ -26,16 +26,14 @@ public class BoardModel implements FieldChangedEventProvider {
                 turn = nextTurn(turn);
                 notifyFieldChanged(new FieldChangedEvent(x, y, Ball.WHITE));
                 if(checkWin(x, y, Ball.WHITE))
-                    System.out.println("WHITE WIN!");
-                return true;
+                    return true;
             }
             if(turn == Turn.BLACK_PLACE_BALL) {
                 balls[x][y] = Ball.BLACK;
                 turn = nextTurn(turn);
                 notifyFieldChanged(new FieldChangedEvent(x, y, Ball.BLACK));
                 if(checkWin(x, y, Ball.BLACK))
-                    System.out.println("BLACK WIN!");
-                return true;
+                    return true;
             }
         }
         return false;
@@ -66,25 +64,25 @@ public class BoardModel implements FieldChangedEventProvider {
         listeners.add(listener);
     }
 
-    @Override
-    public void removeFieldChangedEventListener(FieldChangedEventListener listener) {
-        listeners.remove(listener);
-    }
-
-    public void rotate(Point center, int way) {
+    public boolean rotate(Point center, int way) {
         if(turn == Turn.WHITE_ROTATE_BOARD || turn == Turn.BLACK_ROTATE_BOARD) {
             swapCorners(center.x, center.y, way);
             swapEdges(center.x, center.y, way);
+            if(checkBoardWin())
+                return true;
+            turn = nextTurn(turn);
         }
-        checkBoardWin();
+        return false;
     }
 
-    private boolean checkBoardWin() {
+    public boolean checkBoardWin() {
         for(int i = 0; i < 6; i++) {
-            if (checkWin(i, i, Ball.WHITE))
-                return true;
-            if (checkWin(i, i, Ball.BLACK))
-                return true;
+            for (int j = 0; j < 6; j++) {
+                if(balls[i][j] == Ball.NONE)
+                    continue;
+                if (checkWin(i, j, balls[i][j]))
+                    return true;
+            }
         }
         return false;
     }
@@ -128,8 +126,6 @@ public class BoardModel implements FieldChangedEventProvider {
                 countBalls(x, y, 1, -1, color) + countBalls(x, y, -1, 1, color) > 3;
     }
 
-
-
     private int countBalls(int x, int y, int dx, int dy, Ball color) {
         x += dx;
         y += dy;
@@ -154,5 +150,13 @@ public class BoardModel implements FieldChangedEventProvider {
 
     private boolean checkHorizontal(int x, int y, Ball color) {
         return countBalls(x, y, 0, 1, color) + countBalls(x, y, 0, -1, color) > 3;
+    }
+
+    public Turn getTurn() {
+        return turn;
+    }
+
+    public void endOfGame() {
+        turn = Turn.END_OF_GAME;
     }
 }

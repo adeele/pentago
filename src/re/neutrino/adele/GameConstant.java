@@ -3,8 +3,7 @@ package re.neutrino.adele;
 import java.awt.*;
 
 /**
- * Class GameConstant:
- * keeps views' constants such as colors and strings
+ * Keeps game constants such as colors and strings
  */
 public class GameConstant {
     public static final Color FG_COLOR = new Color(16, 32, 38);
@@ -18,4 +17,8 @@ public class GameConstant {
     public static final String QUIT = "Quit";
     public static final Font DEFAULT_FONT_BIG = new Font("Default", Font.PLAIN, 50);
     public static final Font DEFAULT_FONT_SMALL = new Font("Default", Font.PLAIN, 32);
+    public static final String TURN_WHITE = "TURN: WHITE";
+    public static final String TURN_BLACK = "TURN: BLACK";
+    public static final String WINNER_WHITE = "WIN: WHITE!";
+    public static final String WINNER_BLACK = "WIN: BLACK!";
 }

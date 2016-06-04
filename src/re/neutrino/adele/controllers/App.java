@@ -12,6 +12,9 @@ public class App {
     private final JFrame rootFrame = new JFrame(GameConstant.PENTAGO);
     private final MenuCtrl menuCtrl;
 
+    /**
+     * App constructor
+     */
     public App() {
         menuCtrl = new MenuCtrl(this);
         menuCtrl.attachToFrame(rootFrame);
@@ -19,6 +22,9 @@ public class App {
         rootFrame.setVisible(true);
     }
 
+    /**
+     * Starts new game
+     */
     void startGame() {
         menuCtrl.detachFromFrame(rootFrame);
         BoardCtrl boardCtrl = new BoardCtrl();
@@ -26,6 +32,9 @@ public class App {
         rootFrame.setVisible(true);
     }
 
+    /**
+     * Exits game
+     */
     void exitGame() {
         rootFrame.dispose();
     }

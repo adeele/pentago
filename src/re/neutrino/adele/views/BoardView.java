@@ -20,9 +20,10 @@ import java.io.IOException;
  */
 public class BoardView implements FieldChangedEventListener {
     private final BoardPanel panel = new BoardPanel();
-    private final JLabel labelTurn = new JLabel("TURN: WHITE");
+    private JLabel header = new JLabel(GameConstant.TURN_WHITE);
     private final BoardCtrl boardCtrl;
     private final Circle[] circles = new Circle[36];
+    private boolean arrowsVisibility = false;
     private final Rectangle[] arrows = new Rectangle[] {
             new Rectangle(110, 200, 40, 100),
             new Rectangle(150, 160, 100, 40),
@@ -41,7 +42,6 @@ public class BoardView implements FieldChangedEventListener {
     };
     private BufferedImage arrow1, arrow2, arrow3, arrow4, arrow5, arrow6, arrow7, arrow8;
 
-
     public BoardView(BoardCtrl boardCtrl) {
         try {
             arrow1 = ImageIO.read(new File("/home/adele/studies/pentago/src/re/neutrino/adele/images/arrow1.png"));
@@ -54,29 +54,28 @@ public class BoardView implements FieldChangedEventListener {
             arrow8 = ImageIO.read(new File("/home/adele/studies/pentago/src/re/neutrino/adele/images/arrow8.png"));
         }
         catch (IOException ex) {
-            System.out.println("EXCEPTION");
+            System.err.println(ex.getMessage());
         }
 
         this.boardCtrl = boardCtrl;
         initPanel();
-        initLabel();
-        panel.add(labelTurn);
+        initHeader();
+        panel.add(header);
         initPlaces();
     }
 
-    private void initLabel() {
-        labelTurn.setBackground(GameConstant.BG_DARK_COLOR);
-        labelTurn.setOpaque(true);
-        labelTurn.setForeground(GameConstant.FG_COLOR);
-        labelTurn.setFont(GameConstant.DEFAULT_FONT_BIG);
-        labelTurn.setBorder(BorderFactory.createEmptyBorder(40, 228, 40, 228));
-        labelTurn.setAlignmentX(Component.CENTER_ALIGNMENT);
+    private void initHeader() {
+        header.setBackground(GameConstant.BG_DARK_COLOR);
+        header.setOpaque(true);
+        header.setForeground(GameConstant.FG_COLOR);
+        header.setFont(GameConstant.DEFAULT_FONT_BIG);
+        header.setBorder(BorderFactory.createEmptyBorder(40, 228, 40, 228));
+        header.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 
     private void initPanel() {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.addMouseListener(new MouseListener() {
-
 
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -158,11 +157,34 @@ public class BoardView implements FieldChangedEventListener {
         return x + y * 6;
     }
 
-    private class BoardPanel extends JPanel{
+    public void setLabelWin(String labelWin) {
+        header.setText(labelWin);
+    }
+
+    public void setLabel(String label) {
+        header.setText(label);
+    }
+
+    public void setArrowsVisible(boolean visibility) {
+        arrowsVisibility = visibility;
+    }
+
+    private class BoardPanel extends JPanel {
         @Override
         public void paintComponent(Graphics g) {
-            drawBoard(g);
-            drawArrows(g);
+            Graphics2D g2 = (Graphics2D) g;
+            if(arrowsVisibility) {
+                drawBoard(g);
+                drawArrows(g);
+            }
+            else {
+                for (Rectangle rect: arrows) {
+                    g2.setPaint(GameConstant.BG_COLOR);
+                    g2.fill(rect);
+                    drawBoard(g);
+                }
+
+            }
         }
     }
 
