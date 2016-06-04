@@ -27,7 +27,7 @@ public class App {
      */
     void startGame() {
         menuCtrl.detachFromFrame(rootFrame);
-        BoardCtrl boardCtrl = new BoardCtrl();
+        BoardCtrl boardCtrl = new BoardCtrl(this);
         boardCtrl.attachToFrame(rootFrame);
         rootFrame.setVisible(true);
     }

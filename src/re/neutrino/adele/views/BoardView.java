@@ -24,6 +24,7 @@ public class BoardView implements FieldChangedEventListener {
     private final BoardCtrl boardCtrl;
     private final Circle[] circles = new Circle[36];
     private boolean arrowsVisibility = false;
+    private boolean endOfGame = false;
     private final Rectangle[] arrows = new Rectangle[] {
             new Rectangle(110, 200, 40, 100),
             new Rectangle(150, 160, 100, 40),
@@ -57,6 +58,7 @@ public class BoardView implements FieldChangedEventListener {
             System.err.println(ex.getMessage());
         }
 
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         this.boardCtrl = boardCtrl;
         initPanel();
         initHeader();
@@ -169,6 +171,40 @@ public class BoardView implements FieldChangedEventListener {
         arrowsVisibility = visibility;
     }
 
+    public void displayButtonQuit() {
+        JButton buttonQuit = new JButton("Quit");
+        panel.add(Box.createRigidArea(new Dimension(50, 50)));
+        panel.add(buttonQuit);
+
+        buttonQuit.setBackground(GameConstant.BG_LIGHT_COLOR);
+        buttonQuit.setBorder(BorderFactory.createEmptyBorder(40, 130, 40, 130));
+        buttonQuit.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonQuit.setForeground(GameConstant.FG_COLOR);
+        buttonQuit.setFont(GameConstant.DEFAULT_FONT_SMALL);
+        buttonQuit.addActionListener(e -> boardCtrl.quit());
+        repaint();
+    }
+
+    public void endOfGame() {
+        endOfGame = true;
+        repaint();
+    }
+
+    public void displayButtonMenu() {
+        JButton buttonMenu = new JButton("Menu");
+        panel.add(Box.createRigidArea(new Dimension(160, 160)));
+        panel.add(buttonMenu);
+
+        buttonMenu.setBackground(GameConstant.BG_LIGHT_COLOR);
+        buttonMenu.setBorder(BorderFactory.createEmptyBorder(40, 120, 40, 120));
+        buttonMenu.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonMenu.setForeground(GameConstant.FG_COLOR);
+        buttonMenu.setFont(GameConstant.DEFAULT_FONT_SMALL);
+        buttonMenu.addActionListener(e -> boardCtrl.openMenu());
+        repaint();
+
+    }
+
     private class BoardPanel extends JPanel {
         @Override
         public void paintComponent(Graphics g) {
@@ -185,6 +221,13 @@ public class BoardView implements FieldChangedEventListener {
                 }
 
             }
+            if(endOfGame) {
+                Rectangle frame = new Rectangle(200, 250, 400, 400);
+                g2.setPaint(GameConstant.BOREDER_COLOR);
+                g2.fill(frame);
+                g2.setPaint(GameConstant.FG_COLOR);
+                g2.draw(frame);
+            }
         }
     }
 
@@ -198,4 +241,5 @@ public class BoardView implements FieldChangedEventListener {
         g.drawImage(arrow7, 110, 600, 40, 100, null);
         g.drawImage(arrow8, 110, 200, 40, 100, null);
     }
+
 }

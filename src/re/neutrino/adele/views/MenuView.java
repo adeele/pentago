@@ -16,7 +16,6 @@ public class MenuView {
     private JButton buttonPlayOnline = new JButton(GameConstant.PLAY_ONLINE);
     private JButton buttonQuit = new JButton(GameConstant.QUIT);
     private JLabel labelPentago = new JLabel(GameConstant.PENTAGO);
-    private MenuCtrl menuCtrl;
 
     public MenuView(MenuCtrl menuCtrl) {
 

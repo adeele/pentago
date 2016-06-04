@@ -15,18 +15,20 @@ public class BoardCtrl {
 
     private final BoardView boardView;
     private final BoardModel boardModel;
+    private App app;
 
-    BoardCtrl() {
+    BoardCtrl(App app) {
         boardView = new BoardView(this);
         boardModel = new BoardModel();
         boardModel.addFieldChangedEventListener(boardView);
+        this.app = app;
     }
+
     public void handleBoardClick(Circle[] circles, Point point) {
         for (int i = 0; i < 36; i++) {
            if (circles[i].contains(point)) {
                if(boardModel.placeBall(i)) {
-                   boardView.setLabelWin(checkWinner());
-                   boardModel.endOfGame();
+                   endOfGame();
                    break;
                }
                boardView.setArrowsVisible(true);
@@ -42,14 +44,22 @@ public class BoardCtrl {
         for (int i = 0; i < 8; i++) {
             if (arrows[i].contains(point)) {
                 if(boardModel.rotate(witchSquare(i), witchWay(i))) {
-                    boardView.setLabelWin(checkWinner());
-                    boardModel.endOfGame();
+                    endOfGame();
                     break;
                 }
                 boardView.setArrowsVisible(false);
                 boardView.setLabel(getLabel());
             }
         }
+    }
+
+    private void endOfGame() {
+        boardView.setLabelWin(checkWinner());
+        boardModel.endOfGame();
+        boardView.endOfGame();
+        // TODO: w8 some time or press any key/mouse event
+        boardView.displayButtonMenu();
+        boardView.displayButtonQuit();
     }
 
     private String checkWinner() {
@@ -86,5 +96,14 @@ public class BoardCtrl {
             default:
                 return GameConstant.TURN_WHITE;
         }
+    }
+
+    public void quit() {
+        app.exitGame();
+    }
+
+    public void openMenu() {
+        app.exitGame();
+        app = new App();
     }
 }
