@@ -45,41 +45,14 @@ public class MenuView {
         buttonPlay.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPlay.setForeground(GameConstant.FG_COLOR);
         buttonPlay.setFont(GameConstant.DEFAULT_FONT_SMALL);
-        //buttonPlay.addActionListener(e -> menuCtrl.buttonPlayCtrl());
-        buttonPlay.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                NetworkCtrl networkCtrl = new NetworkCtrl();
-                for (;;) {
-                    try {
-                        networkCtrl.listen();
-                        networkCtrl.read();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-            }
-        });
+        buttonPlay.addActionListener(e -> menuCtrl.buttonPlayCtrl());
 
         buttonPlayOnline.setBackground(GameConstant.BG_LIGHT_COLOR);
         buttonPlayOnline.setBorder(BorderFactory.createEmptyBorder(30, 100, 30, 100));
         buttonPlayOnline.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPlayOnline.setForeground(GameConstant.FG_COLOR);
         buttonPlayOnline.setFont(GameConstant.DEFAULT_FONT_SMALL);
-        buttonPlayOnline.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                NetworkCtrl networkCtrl = new NetworkCtrl();
-                for (;;) {
-                    try {
-                        networkCtrl.connect("localhost");
-                        networkCtrl.reportLoss();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-            }
-        });
+        buttonPlayOnline.addActionListener(e -> menuCtrl.buttonPlayOnlineCtrl());
 
         buttonQuit.setBackground(GameConstant.BG_LIGHT_COLOR);
         buttonQuit.setBorder(BorderFactory.createEmptyBorder(30, 160, 30, 160));
@@ -91,5 +64,18 @@ public class MenuView {
 
     public JPanel getPanel() {
         return panel;
+    }
+
+    public void createOnlineModeView(MenuCtrl menuCtrl) {
+        buttonPlay.setText(GameConstant.CREATE_GAME);
+        buttonPlay.setBorder(BorderFactory.createEmptyBorder(30, 85, 30, 85));
+        buttonPlay.removeNotify();
+        //buttonPlay.addActionListener(e -> menuCtrl.createGame());
+        buttonPlayOnline.setText(GameConstant.JOIN_GAME);
+        buttonPlayOnline.setBorder(BorderFactory.createEmptyBorder(30, 110, 30, 110));
+        buttonPlayOnline.removeNotify();
+        //buttonPlayOnline.addActionListener(e -> menuCtrl.joinGame());
+
+        panel.repaint();
     }
 }

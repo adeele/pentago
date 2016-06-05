@@ -24,4 +24,7 @@ public class GameConstant {
     public static final int PORT = 2778;
     public static final byte MESSAGE_MOVE = 1;
     public static final byte MESSAGE_LOSS = 2;
+    public static final int TIMEOUT = 100;
+    public static final String CREATE_GAME = "Create Game";
+    public static final String JOIN_GAME = "Join Game";
 }

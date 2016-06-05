@@ -1,9 +1,12 @@
 package re.neutrino.adele.controllers;
 
+import re.neutrino.adele.GameConstant;
+
 import java.io.BufferedInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.Arrays;
 
 /**
@@ -24,9 +27,13 @@ abstract class Connection {
         out.write(msg);
     }
 
-    byte[] read() throws IOException {
-        byte[] msg = new byte[in.available()];
-        in.read(msg);
+    byte[] read() throws IOException, InterruptedException {
+        byte[] msg = new byte[4];
+        int i;
+        for(i = 0; i < GameConstant.TIMEOUT && in.read(msg) <= 0; i++)
+            Thread.sleep(1000);
+        if(i == GameConstant.TIMEOUT)
+            throw new SocketTimeoutException();
         System.out.println(Arrays.toString(msg));
         return msg;
     }

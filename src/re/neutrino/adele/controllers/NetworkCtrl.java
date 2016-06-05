@@ -24,7 +24,7 @@ public class NetworkCtrl {
         conn = new ServerConnection(GameConstant.PORT);
     }
 
-    public byte[] read() throws IOException {
+    public byte[] read() throws IOException, InterruptedException {
         checkConn();
         return conn.read();
     }

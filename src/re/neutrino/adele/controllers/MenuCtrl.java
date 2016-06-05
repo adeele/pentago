@@ -32,4 +32,8 @@ public class MenuCtrl {
     public void quit() {
         app.exitGame();
     }
+
+    public void buttonPlayOnlineCtrl() {
+        menuView.createOnlineModeView(this);
+    }
 }
