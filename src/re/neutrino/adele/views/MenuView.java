@@ -2,9 +2,13 @@ package re.neutrino.adele.views;
 
 import re.neutrino.adele.GameConstant;
 import re.neutrino.adele.controllers.MenuCtrl;
+import re.neutrino.adele.controllers.NetworkCtrl;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * Class MenuView:
@@ -41,13 +45,41 @@ public class MenuView {
         buttonPlay.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPlay.setForeground(GameConstant.FG_COLOR);
         buttonPlay.setFont(GameConstant.DEFAULT_FONT_SMALL);
-        buttonPlay.addActionListener(e -> menuCtrl.buttonPlayCtrl());
+        //buttonPlay.addActionListener(e -> menuCtrl.buttonPlayCtrl());
+        buttonPlay.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                NetworkCtrl networkCtrl = new NetworkCtrl();
+                for (;;) {
+                    try {
+                        networkCtrl.listen();
+                        networkCtrl.read();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
 
         buttonPlayOnline.setBackground(GameConstant.BG_LIGHT_COLOR);
         buttonPlayOnline.setBorder(BorderFactory.createEmptyBorder(30, 100, 30, 100));
         buttonPlayOnline.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPlayOnline.setForeground(GameConstant.FG_COLOR);
         buttonPlayOnline.setFont(GameConstant.DEFAULT_FONT_SMALL);
+        buttonPlayOnline.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                NetworkCtrl networkCtrl = new NetworkCtrl();
+                for (;;) {
+                    try {
+                        networkCtrl.connect("localhost");
+                        networkCtrl.reportLoss();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
 
         buttonQuit.setBackground(GameConstant.BG_LIGHT_COLOR);
         buttonQuit.setBorder(BorderFactory.createEmptyBorder(30, 160, 30, 160));

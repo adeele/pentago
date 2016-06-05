@@ -17,10 +17,16 @@ public class NetworkCtrl {
             disconnect();
         conn = new ClientConnection(address, GameConstant.PORT);
     }
+
     public void listen() throws IOException {
         if(conn != null)
             disconnect();
         conn = new ServerConnection(GameConstant.PORT);
+    }
+
+    public byte[] read() throws IOException {
+        checkConn();
+        return conn.read();
     }
 
     public void submitMove(Move move) throws IOException {
