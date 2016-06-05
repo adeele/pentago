@@ -21,4 +21,7 @@ public class GameConstant {
     public static final String TURN_BLACK = "TURN: BLACK";
     public static final String WINNER_WHITE = "WIN: WHITE!";
     public static final String WINNER_BLACK = "WIN: BLACK!";
+    public static final int PORT = 2778;
+    public static final byte MESSAGE_MOVE = 1;
+    public static final byte MESSAGE_LOSS = 2;
 }

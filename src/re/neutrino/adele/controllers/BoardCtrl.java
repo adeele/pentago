@@ -57,6 +57,11 @@ public class BoardCtrl {
         boardView.setLabelWin(checkWinner());
         boardModel.endOfGame();
         boardView.endOfGame();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         // TODO: w8 some time or press any key/mouse event
         boardView.displayButtonMenu();
         boardView.displayButtonQuit();
