@@ -62,9 +62,9 @@ public class BoardModelTest {
         boardModel.placeBall(3, 5);
         boardModel.rotate(new Point(1, 1), 1);
 
-        boolean result = boardModel.checkBoardWin();
+        Ball result = boardModel.checkBoardWin();
 
-        assertEquals(false, result);
+        assertEquals(Ball.WHITE, result);
     }
 
     @Test
@@ -89,8 +89,8 @@ public class BoardModelTest {
         boardModel.placeBall(4, 4);
         boardModel.rotate(new Point(4, 4), -1);
 
-        boolean result = boardModel.checkBoardWin();
+        Ball result = boardModel.checkBoardWin();
 
-        assertEquals(true, result);
+        assertEquals(Ball.WHITE, result);
     }
 }

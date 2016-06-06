@@ -1,5 +1,6 @@
 package re.neutrino.adele.views;
 
+import re.neutrino.adele.Ball;
 import re.neutrino.adele.FieldChangedEvent;
 import re.neutrino.adele.FieldChangedEventListener;
 import re.neutrino.adele.GameConstant;
@@ -168,8 +169,11 @@ public class BoardView implements FieldChangedEventListener {
         return x + y * 6;
     }
 
-    private void setLabelWin(String labelWin) {
-        header.setText(labelWin);
+    private void setLabelWin(Ball ball) {
+        if(ball == Ball.BLACK)
+            header.setText(GameConstant.WINNER_BLACK);
+        else
+            header.setText(GameConstant.WINNER_WHITE);
         repaint();
     }
 
@@ -195,8 +199,8 @@ public class BoardView implements FieldChangedEventListener {
         repaint();
     }
 
-    public void endOfGame() {
-        setLabelWin(boardCtrl.checkWinner());
+    public void endOfGame(Ball ret) {
+        setLabelWin(ret);
     }
 
     private void displayButtonMenu() {

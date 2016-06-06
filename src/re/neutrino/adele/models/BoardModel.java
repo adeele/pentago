@@ -13,30 +13,30 @@ public class BoardModel implements FieldChangedEventProvider {
     private Turn turn;
 
     private final Ball[][] balls = new Ball[6][6];
-    public boolean placeBall(int i) {
+    public Ball placeBall(int i) {
         int x = i % 6;
         int y = i / 6;
         return placeBall(x, y);
     }
 
-    public boolean placeBall(int x, int y) {
+    public Ball placeBall(int x, int y) {
         if(balls[x][y] == Ball.NONE) {
             if(turn == Turn.WHITE_PLACE_BALL) {
                 balls[x][y] = Ball.WHITE;
                 turn = nextTurn(turn);
                 notifyFieldChanged(new FieldChangedEvent(x, y, Ball.WHITE));
                 if(checkWin(x, y, Ball.WHITE))
-                    return true;
+                    return Ball.WHITE;
             }
             if(turn == Turn.BLACK_PLACE_BALL) {
                 balls[x][y] = Ball.BLACK;
                 turn = nextTurn(turn);
                 notifyFieldChanged(new FieldChangedEvent(x, y, Ball.BLACK));
                 if(checkWin(x, y, Ball.BLACK))
-                    return true;
+                    return Ball.BLACK;
             }
         }
-        return false;
+        return Ball.NONE;
     }
 
     private Turn nextTurn(Turn turn) {
@@ -64,27 +64,30 @@ public class BoardModel implements FieldChangedEventProvider {
         listeners.add(listener);
     }
 
-    public boolean rotate(Point center, int way) {
+    public Ball rotate(Point center, int way) {
         if(turn == Turn.WHITE_ROTATE_BOARD || turn == Turn.BLACK_ROTATE_BOARD) {
             swapCorners(center.x, center.y, way);
             swapEdges(center.x, center.y, way);
-            if(checkBoardWin())
-                return true;
+            Ball ret = checkBoardWin();
+            if(ret == Ball.WHITE)
+                return Ball.WHITE;
+            if(ret == Ball.BLACK)
+                return Ball.BLACK;
             turn = nextTurn(turn);
         }
-        return false;
+        return Ball.NONE;
     }
 
-    public boolean checkBoardWin() {
+    public Ball checkBoardWin() {
         for(int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
                 if(balls[i][j] == Ball.NONE)
                     continue;
                 if (checkWin(i, j, balls[i][j]))
-                    return true;
+                    return balls[i][j];
             }
         }
-        return false;
+        return Ball.NONE;
     }
 
     private void swapEdges(int x, int y, int way) {

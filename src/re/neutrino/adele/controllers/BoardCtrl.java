@@ -1,5 +1,6 @@
 package re.neutrino.adele.controllers;
 
+import re.neutrino.adele.Ball;
 import re.neutrino.adele.GameConstant;
 import re.neutrino.adele.models.BoardModel;
 import re.neutrino.adele.views.BoardView;
@@ -27,8 +28,9 @@ public class BoardCtrl {
     public void handleBoardClick(Circle[] circles, Point point) {
         for (int i = 0; i < 36; i++) {
            if (circles[i].contains(point)) {
-               if(boardModel.placeBall(i)) {
-                   endOfGame();
+               Ball ret = boardModel.placeBall(i);
+               if(ret != Ball.NONE) {
+                   endOfGame(ret);
                    break;
                }
                boardView.setArrowsVisible(true);
@@ -43,8 +45,9 @@ public class BoardCtrl {
     public void handleArrowClick(Rectangle[] arrows, Point point) {
         for (int i = 0; i < 8; i++) {
             if (arrows[i].contains(point)) {
-                if(boardModel.rotate(witchSquare(i), witchWay(i))) {
-                    endOfGame();
+                Ball ret = boardModel.rotate(witchSquare(i), witchWay(i));
+                if(ret != Ball.NONE) {
+                    endOfGame(ret);
                     break;
                 }
                 boardView.setArrowsVisible(false);
@@ -53,9 +56,9 @@ public class BoardCtrl {
         }
     }
 
-    private void endOfGame() {
+    private void endOfGame(Ball ret) {
         boardModel.endOfGame();
-        boardView.endOfGame();
+        boardView.endOfGame(ret);
     }
 
     public String checkWinner() {
