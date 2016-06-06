@@ -21,8 +21,11 @@ public class MenuView {
     private JButton buttonQuit = new JButton(GameConstant.QUIT);
     private JLabel labelPentago = new JLabel(GameConstant.PENTAGO);
 
+    /**
+     * Constructor draws all application buttons
+     * @param menuCtrl reference to the controller
+     */
     public MenuView(MenuCtrl menuCtrl) {
-
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(GameConstant.BG_COLOR);
         panel.add(labelPentago);
@@ -40,32 +43,42 @@ public class MenuView {
         labelPentago.setBorder(BorderFactory.createEmptyBorder(50, 293, 50, 293));
         labelPentago.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        buttonPlay.setBackground(GameConstant.BG_LIGHT_COLOR);
-        buttonPlay.setBorder(BorderFactory.createEmptyBorder(30, 160, 30, 160));
-        buttonPlay.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttonPlay.setForeground(GameConstant.FG_COLOR);
-        buttonPlay.setFont(GameConstant.DEFAULT_FONT_SMALL);
+        displayButton(buttonPlay, 30, 160);
         buttonPlay.addActionListener(e -> menuCtrl.buttonPlayCtrl());
 
-        buttonPlayOnline.setBackground(GameConstant.BG_LIGHT_COLOR);
-        buttonPlayOnline.setBorder(BorderFactory.createEmptyBorder(30, 100, 30, 100));
-        buttonPlayOnline.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttonPlayOnline.setForeground(GameConstant.FG_COLOR);
-        buttonPlayOnline.setFont(GameConstant.DEFAULT_FONT_SMALL);
+        displayButton(buttonPlayOnline, 30, 100);
         buttonPlayOnline.addActionListener(e -> menuCtrl.buttonPlayOnlineCtrl());
 
-        buttonQuit.setBackground(GameConstant.BG_LIGHT_COLOR);
-        buttonQuit.setBorder(BorderFactory.createEmptyBorder(30, 160, 30, 160));
-        buttonQuit.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttonQuit.setForeground(GameConstant.FG_COLOR);
-        buttonQuit.setFont(GameConstant.DEFAULT_FONT_SMALL);
+        displayButton(buttonQuit, 30, 160);
         buttonQuit.addActionListener(e -> menuCtrl.quit());
     }
 
+    /**
+     * Displays button in proper place on panel
+     * @param button to display
+     * @param x x-coord
+     * @param y y-coord
+     */
+    private void displayButton(JButton button, int x, int y) {
+        button.setBackground(GameConstant.BG_LIGHT_COLOR);
+        button.setBorder(BorderFactory.createEmptyBorder(x, y, x, y));
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setForeground(GameConstant.FG_COLOR);
+        button.setFont(GameConstant.DEFAULT_FONT_SMALL);
+    }
+
+    /**
+     * Provides access to panel
+     * @return panel
+     */
     public JPanel getPanel() {
         return panel;
     }
 
+    /**
+     * Creates online mode panel view
+     * @param menuCtrl reference to the controller
+     */
     public void createOnlineModeView(MenuCtrl menuCtrl) {
         buttonPlay.setText(GameConstant.CREATE_GAME);
         buttonPlay.setBorder(BorderFactory.createEmptyBorder(30, 85, 30, 85));

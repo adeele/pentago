@@ -12,6 +12,10 @@ import static org.junit.Assert.*;
  * Checking win test
  */
 public class BoardModelTest {
+    /**
+     * Tests if reports win on obliques
+     * @throws Exception
+     */
     @Test
     public void checkWinOblique() throws Exception {
         BoardModel boardModel = new BoardModel();
@@ -39,6 +43,10 @@ public class BoardModelTest {
         assertEquals(true, result);
     }
 
+    /**
+     * Tests if not report the win after checking place with no ball
+     * @throws Exception
+     */
     @Test
     public void checkWinOnPermanentPlace() throws Exception {
         BoardModel boardModel = new BoardModel();
@@ -67,6 +75,10 @@ public class BoardModelTest {
         assertEquals(Ball.WHITE, result);
     }
 
+    /**
+     * Tests if reports win after rotation
+     * @throws Exception
+     */
     @Test
     public void checkWinAfterRotation() throws Exception {
         BoardModel boardModel = new BoardModel();

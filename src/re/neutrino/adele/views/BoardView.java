@@ -16,8 +16,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Class BoardView
- * creates panel on witch draws the board
+ * Creates panel on witch draws the board
  */
 public class BoardView implements FieldChangedEventListener {
     private final BoardPanel panel = new BoardPanel();
@@ -44,6 +43,10 @@ public class BoardView implements FieldChangedEventListener {
     };
     private BufferedImage arrow1, arrow2, arrow3, arrow4, arrow5, arrow6, arrow7, arrow8;
 
+    /**
+     * Constructor
+     * @param boardCtrl reference to the controller
+     */
     public BoardView(BoardCtrl boardCtrl) {
         try {
             arrow1 = ImageIO.read(new File("/home/adele/studies/pentago/src/re/neutrino/adele/images/arrow1.png"));
@@ -67,6 +70,9 @@ public class BoardView implements FieldChangedEventListener {
         initPlaces();
     }
 
+    /**
+     * Initializes label header
+     */
     private void initHeader() {
         header.setBackground(GameConstant.BG_DARK_COLOR);
         header.setOpaque(true);
@@ -76,6 +82,10 @@ public class BoardView implements FieldChangedEventListener {
         header.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 
+    /**
+     * Initializes panel
+     * Adds mouse listener waiting for click
+     */
     private void initPanel() {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.addMouseListener(new MouseListener() {
@@ -107,13 +117,10 @@ public class BoardView implements FieldChangedEventListener {
         });
     }
 
-    private void drawEndOfGamePanel() {
-        endOfGame = true;
-        displayButtonMenu();
-        displayButtonQuit();
-    }
-
-
+    /**
+     * Draws board and ball places
+     * @param g graphics
+     */
     private void drawBoard(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(5));
@@ -127,6 +134,9 @@ public class BoardView implements FieldChangedEventListener {
         }
     }
 
+    /**
+     * Initializes ball places
+     */
     private void initPlaces() {
         int x = 0, y = 0;
         for(int i = 0; i < 6; i++) {
@@ -141,14 +151,25 @@ public class BoardView implements FieldChangedEventListener {
         }
     }
 
+    /**
+     * Repaints the panel
+     */
     private void repaint() {
         panel.repaint();
     }
 
+    /**
+     * Provides access to the panel
+     * @return panel
+     */
     public JPanel getPanel() {
         return panel;
     }
 
+    /**
+     * Colors changed place
+     * @param e event
+     */
     @Override
     public void onFieldChanged(FieldChangedEvent e) {
         Circle circle = circles[getIndex(e.getX(), e.getY())];
@@ -165,10 +186,20 @@ public class BoardView implements FieldChangedEventListener {
         repaint();
     }
 
+    /**
+     * Translates 2D to 1D array
+     * @param x x-coord
+     * @param y y-coord
+     * @return index in 1D array
+     */
     private int getIndex(int x, int y) {
         return x + y * 6;
     }
 
+    /**
+     * Informs about the winner
+     * @param ball winner color
+     */
     private void setLabelWin(Ball ball) {
         if(ball == Ball.BLACK)
             header.setText(GameConstant.WINNER_BLACK);
@@ -177,47 +208,61 @@ public class BoardView implements FieldChangedEventListener {
         repaint();
     }
 
+    /**
+     * Changes label text after switch turn
+     * @param label with changed text
+     */
     public void setLabel(String label) {
         header.setText(label);
     }
 
+    /**
+     * Decides if display arrows
+     * @param visibility if display or not
+     */
     public void setArrowsVisible(boolean visibility) {
         arrowsVisibility = visibility;
     }
 
-    private void displayButtonQuit() {
-        JButton buttonQuit = new JButton("Quit");
-        panel.add(Box.createRigidArea(new Dimension(50, 50)));
-        panel.add(buttonQuit);
+    /**
+     * Displays button on the end of the game
+     */
+    private JButton displayButton(String label, int offset, int x, int y) {
+        JButton button = new JButton(label);
+        panel.add(Box.createRigidArea(new Dimension(offset, offset)));
+        panel.add(button);
 
-        buttonQuit.setBackground(GameConstant.BG_LIGHT_COLOR);
-        buttonQuit.setBorder(BorderFactory.createEmptyBorder(40, 130, 40, 130));
-        buttonQuit.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttonQuit.setForeground(GameConstant.FG_COLOR);
-        buttonQuit.setFont(GameConstant.DEFAULT_FONT_SMALL);
-        buttonQuit.addActionListener(e -> boardCtrl.quit());
+        button.setBackground(GameConstant.BG_LIGHT_COLOR);
+        button.setBorder(BorderFactory.createEmptyBorder(x, y, x, y));
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setForeground(GameConstant.FG_COLOR);
+        button.setFont(GameConstant.DEFAULT_FONT_SMALL);
         repaint();
+        return button;
     }
 
-    public void endOfGame(Ball ret) {
-        setLabelWin(ret);
-    }
-
-    private void displayButtonMenu() {
-        JButton buttonMenu = new JButton("Menu");
-        panel.add(Box.createRigidArea(new Dimension(160, 160)));
-        panel.add(buttonMenu);
-
-        buttonMenu.setBackground(GameConstant.BG_LIGHT_COLOR);
-        buttonMenu.setBorder(BorderFactory.createEmptyBorder(40, 120, 40, 120));
-        buttonMenu.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttonMenu.setForeground(GameConstant.FG_COLOR);
-        buttonMenu.setFont(GameConstant.DEFAULT_FONT_SMALL);
+    /**
+     * Displays end-of-game buttons
+     */
+    private void drawEndOfGamePanel() {
+        endOfGame = true;
+        JButton buttonMenu = displayButton("Menu", 160, 40, 120);
         buttonMenu.addActionListener(e -> boardCtrl.openMenu());
-        repaint();
-
+        JButton buttonQuit = displayButton("Quit", 50, 40, 130);
+        buttonQuit.addActionListener(e -> boardCtrl.quit());
     }
 
+    /**
+     * End-of-game action
+     * @param winner who wins
+     */
+    public void endOfGame(Ball winner) {
+        setLabelWin(winner);
+    }
+
+    /**
+     * Panel inherits JPanel drawing ability
+     */
     private class BoardPanel extends JPanel {
         @Override
         public void paintComponent(Graphics g) {
@@ -243,6 +288,10 @@ public class BoardView implements FieldChangedEventListener {
         }
     }
 
+    /**
+     * Draw arrows on appropriate places
+     * @param g graphics
+     */
     private void drawArrows(Graphics g) {
         g.drawImage(arrow1, 150, 160, 100, 40, null);
         g.drawImage(arrow2, 550, 160, 100, 40, null);
@@ -253,5 +302,4 @@ public class BoardView implements FieldChangedEventListener {
         g.drawImage(arrow7, 110, 600, 40, 100, null);
         g.drawImage(arrow8, 110, 200, 40, 100, null);
     }
-
 }
