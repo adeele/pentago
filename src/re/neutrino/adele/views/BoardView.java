@@ -83,6 +83,9 @@ public class BoardView implements FieldChangedEventListener {
             public void mouseClicked(MouseEvent e) {
                 boardCtrl.handleBoardClick(circles, e.getPoint());
                 boardCtrl.handleArrowClick(arrows, e.getPoint());
+                if((header.getText().equals(GameConstant.WINNER_WHITE) || header.getText().equals(GameConstant.WINNER_BLACK)) && e.getClickCount() == 2 ) {
+                    drawEndOfGamePanel();
+                }
             }
 
             @Override
@@ -101,6 +104,12 @@ public class BoardView implements FieldChangedEventListener {
             public void mouseExited(MouseEvent e) {
             }
         });
+    }
+
+    private void drawEndOfGamePanel() {
+        endOfGame = true;
+        displayButtonMenu();
+        displayButtonQuit();
     }
 
 
@@ -159,8 +168,9 @@ public class BoardView implements FieldChangedEventListener {
         return x + y * 6;
     }
 
-    public void setLabelWin(String labelWin) {
+    private void setLabelWin(String labelWin) {
         header.setText(labelWin);
+        repaint();
     }
 
     public void setLabel(String label) {
@@ -171,7 +181,7 @@ public class BoardView implements FieldChangedEventListener {
         arrowsVisibility = visibility;
     }
 
-    public void displayButtonQuit() {
+    private void displayButtonQuit() {
         JButton buttonQuit = new JButton("Quit");
         panel.add(Box.createRigidArea(new Dimension(50, 50)));
         panel.add(buttonQuit);
@@ -186,11 +196,10 @@ public class BoardView implements FieldChangedEventListener {
     }
 
     public void endOfGame() {
-        endOfGame = true;
-        repaint();
+        setLabelWin(boardCtrl.checkWinner());
     }
 
-    public void displayButtonMenu() {
+    private void displayButtonMenu() {
         JButton buttonMenu = new JButton("Menu");
         panel.add(Box.createRigidArea(new Dimension(160, 160)));
         panel.add(buttonMenu);
@@ -219,7 +228,6 @@ public class BoardView implements FieldChangedEventListener {
                     g2.fill(rect);
                     drawBoard(g);
                 }
-
             }
             if(endOfGame) {
                 Rectangle frame = new Rectangle(200, 250, 400, 400);
