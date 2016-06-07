@@ -38,9 +38,7 @@ public class BoardModelTest {
         boardModel.rotate(new Point(1, 4), 1);
         boardModel.placeBall(4, 4);
 
-        boolean result = boardModel.checkWin(4,4, Ball.WHITE);
-
-        assertEquals(true, result);
+        assertEquals(true, boardModel.isFinished());
     }
 
     /**
@@ -48,7 +46,7 @@ public class BoardModelTest {
      * @throws Exception
      */
     @Test
-    public void checkWinOnPermanentPlace() throws Exception {
+    public void checkNotWinOnPermanentPlace() throws Exception {
         BoardModel boardModel = new BoardModel();
 
         boardModel.placeBall(3, 0);
@@ -70,9 +68,7 @@ public class BoardModelTest {
         boardModel.placeBall(3, 5);
         boardModel.rotate(new Point(1, 1), 1);
 
-        Ball result = boardModel.checkBoardWin();
-
-        assertEquals(Ball.WHITE, result);
+        assertEquals(false, boardModel.isFinished());
     }
 
     /**
@@ -101,8 +97,6 @@ public class BoardModelTest {
         boardModel.placeBall(4, 4);
         boardModel.rotate(new Point(4, 4), -1);
 
-        Ball result = boardModel.checkBoardWin();
-
-        assertEquals(Ball.WHITE, result);
+        assertEquals(true, boardModel.isFinished());
     }
 }

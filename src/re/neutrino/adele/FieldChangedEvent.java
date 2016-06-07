@@ -12,7 +12,7 @@ public class FieldChangedEvent {
      * Creates an event, which is placing ball on coords (x, y)
      * @param x coord
      * @param y coord
-     * @param ball color
+     * @param ball ball
      */
     public FieldChangedEvent(int x, int y, Ball ball) {
         this.x = x;
@@ -37,8 +37,8 @@ public class FieldChangedEvent {
     }
 
     /**
-     * Gives the color of the ball placed
-     * @return ball color
+     * Gives the ball of the ball placed
+     * @return ball ball
      */
     public Ball getBall() {
         return ball;

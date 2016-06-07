@@ -2,6 +2,7 @@ package re.neutrino.adele.controllers;
 
 import re.neutrino.adele.Ball;
 import re.neutrino.adele.GameConstant;
+import re.neutrino.adele.RoundState;
 import re.neutrino.adele.models.BoardModel;
 import re.neutrino.adele.views.BoardView;
 import re.neutrino.adele.views.Circle;
@@ -17,6 +18,7 @@ public class BoardCtrl {
     private final BoardView boardView;
     private final BoardModel boardModel;
     private App app;
+    private RoundState roundState;
 
     BoardCtrl(App app) {
         boardView = new BoardView(this);
@@ -25,17 +27,8 @@ public class BoardCtrl {
         this.app = app;
     }
 
-    public void handleBoardClick(Circle[] circles, Point point) {
-        for (int i = 0; i < 36; i++) {
-           if (circles[i].contains(point)) {
-               Ball ret = boardModel.placeBall(i);
-               if(ret != Ball.NONE) {
-                   endOfGame(ret);
-                   break;
-               }
-               boardView.setArrowsVisible(true);
-           }
-        }
+    public void handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
+        roundState.handleClick(circles, arrows, point);
     }
 
     void attachToFrame(JFrame rootFrame) {
@@ -45,9 +38,10 @@ public class BoardCtrl {
     public void handleArrowClick(Rectangle[] arrows, Point point) {
         for (int i = 0; i < 8; i++) {
             if (arrows[i].contains(point)) {
-                Ball ret = boardModel.rotate(witchSquare(i), witchWay(i));
-                if(ret != Ball.NONE) {
-                    endOfGame(ret);
+                boardModel.rotate(witchSquare(i), witchWay(i));
+                if(boardModel.isFinished()) {
+                    // TODO
+                    endOfGame(Ball.WHITE);
                     break;
                 }
                 boardView.setArrowsVisible(false);
@@ -104,5 +98,10 @@ public class BoardCtrl {
     public void openMenu() {
         app.exitGame();
         app = new App();
+    }
+
+    public boolean placeBallAndCheck(int i, Ball color) {
+        boardModel.placeBall(i, color);
+        return boardModel.isFinished();
     }
 }

@@ -1,7 +1,7 @@
 package re.neutrino.adele;
 
 /**
- * Ball color enum
+ * Ball ball enum
  */
 public enum Ball {
     NONE,

@@ -92,8 +92,7 @@ public class BoardView implements FieldChangedEventListener {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                boardCtrl.handleBoardClick(circles, e.getPoint());
-                boardCtrl.handleArrowClick(arrows, e.getPoint());
+                boardCtrl.handleClick(circles, arrows, e.getPoint());
                 if((header.getText().equals(GameConstant.WINNER_WHITE) || header.getText().equals(GameConstant.WINNER_BLACK)) && e.getClickCount() == 2 ) {
                     drawEndOfGamePanel();
                 }
@@ -198,7 +197,7 @@ public class BoardView implements FieldChangedEventListener {
 
     /**
      * Informs about the winner
-     * @param ball winner color
+     * @param ball winner ball
      */
     private void setLabelWin(Ball ball) {
         if(ball == Ball.BLACK)

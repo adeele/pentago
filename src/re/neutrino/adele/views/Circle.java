@@ -49,21 +49,21 @@ public class Circle {
     }
 
     /**
-     * Sets black color of the fill
+     * Sets black ball of the fill
      */
     void setBlack() {
         color = Color.BLACK;
     }
 
     /**
-     * Sets white color of the fill
+     * Sets white ball of the fill
      */
     void setWhite() {
         color = Color.WHITE;
     }
 
     /**
-     * Set transparent color of the fill
+     * Set transparent ball of the fill
      */
     void setTransparent() {
         color = GameConstant.BG_DARK_COLOR;
