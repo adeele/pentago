@@ -12,7 +12,7 @@ public class BoardModel implements FieldChangedEventProvider {
     private final ArrayList<FieldChangedEventListener> listeners = new ArrayList<>();
     private Turn turn;
     private final Ball[][] balls = new Ball[6][6];
-    boolean finished = false;
+    private boolean finished = false;
 
     /**
      * Constructor
@@ -29,52 +29,22 @@ public class BoardModel implements FieldChangedEventProvider {
     public void placeBall(int i, Ball color) {
         int x = i % 6;
         int y = i / 6;
-        placeBall(x, y);
+        placeBall(x, y, color);
     }
 
     /**
      * Inserts ball to the board
      * @param x x-coordinate
      * @param y y-coordinate
+     * @param color of the ball
      * @return ball of the winner ball
      * (none if no win)
      */
-    // TODO remove hardcoded ball
-    public void placeBall(int x, int y) {
-        if(balls[x][y] == Ball.NONE) {
-            if(turn == Turn.WHITE_PLACE_BALL) {
-                balls[x][y] = Ball.WHITE;
-                turn = nextTurn(turn);
-                notifyFieldChanged(new FieldChangedEvent(x, y, Ball.WHITE));
-                if(checkWin(x, y, Ball.WHITE))
-                    finished = true;
-            }
-            if(turn == Turn.BLACK_PLACE_BALL) {
-                balls[x][y] = Ball.BLACK;
-                turn = nextTurn(turn);
-                notifyFieldChanged(new FieldChangedEvent(x, y, Ball.BLACK));
-                if(checkWin(x, y, Ball.BLACK))
-                    finished = true;
-            }
-        }
-    }
-
-    /**
-     * Changes turn
-     * @param turn active turn
-     * @return next turn
-     */
-    private Turn nextTurn(Turn turn) {
-        switch(turn) {
-            case WHITE_PLACE_BALL:
-                return Turn.WHITE_ROTATE_BOARD;
-            case WHITE_ROTATE_BOARD:
-                return Turn.BLACK_PLACE_BALL;
-            case BLACK_PLACE_BALL:
-                return Turn.BLACK_ROTATE_BOARD;
-            default:
-                return Turn.WHITE_PLACE_BALL;
-        }
+    public void placeBall(int x, int y, Ball color) {
+        balls[x][y] = color;
+        notifyFieldChanged(new FieldChangedEvent(x, y, color));
+        if(checkWin(x, y, color))
+            finished = true;
     }
 
     /**
@@ -101,16 +71,12 @@ public class BoardModel implements FieldChangedEventProvider {
      * Rotates the board and check if someone win
      * @param center coordinates of the center of the rotated square
      * @param way of the rotation
-     * @return ball of the ball wins
      * (none if no win)
      */
     public void rotate(Point center, int way) {
-        if(turn == Turn.WHITE_ROTATE_BOARD || turn == Turn.BLACK_ROTATE_BOARD) {
-            swapCorners(center.x, center.y, way);
-            swapEdges(center.x, center.y, way);
-            checkBoardWin();
-            turn = nextTurn(turn);
-        }
+        swapCorners(center.x, center.y, way);
+        swapEdges(center.x, center.y, way);
+        checkBoardWin();
     }
 
     /**
@@ -264,5 +230,11 @@ public class BoardModel implements FieldChangedEventProvider {
 
     public boolean isFinished() {
         return finished;
+    }
+
+    public boolean canPlaceBall(int i) {
+        int x =  i % 6;
+        int y = i / 6;
+        return balls[x][y] == Ball.NONE;
     }
 }

@@ -27,4 +27,6 @@ public class GameConstant {
     public static final int TIMEOUT = 100;
     public static final String CREATE_GAME = "Create Game";
     public static final String JOIN_GAME = "Join Game";
+    public static final String WIN_FORMAT = "WIN: %s";
+    public static final String TURN_FORMAT = "TURN: %s";
 }

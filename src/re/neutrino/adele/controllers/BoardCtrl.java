@@ -1,8 +1,9 @@
 package re.neutrino.adele.controllers;
 
-import re.neutrino.adele.Ball;
+import re.neutrino.adele.models.Ball;
+import re.neutrino.adele.states.BallTurn;
 import re.neutrino.adele.GameConstant;
-import re.neutrino.adele.RoundState;
+import re.neutrino.adele.states.BaseState;
 import re.neutrino.adele.models.BoardModel;
 import re.neutrino.adele.views.BoardView;
 import re.neutrino.adele.views.Circle;
@@ -18,36 +19,22 @@ public class BoardCtrl {
     private final BoardView boardView;
     private final BoardModel boardModel;
     private App app;
-    private RoundState roundState;
+    private BaseState roundState;
 
     BoardCtrl(App app) {
         boardView = new BoardView(this);
         boardModel = new BoardModel();
         boardModel.addFieldChangedEventListener(boardView);
         this.app = app;
+        roundState = new BallTurn(this, Ball.WHITE);
     }
 
     public void handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
-        roundState.handleClick(circles, arrows, point);
+        roundState = roundState.handleClick(circles, arrows, point);
     }
 
     void attachToFrame(JFrame rootFrame) {
         rootFrame.add(boardView.getPanel());
-    }
-
-    public void handleArrowClick(Rectangle[] arrows, Point point) {
-        for (int i = 0; i < 8; i++) {
-            if (arrows[i].contains(point)) {
-                boardModel.rotate(witchSquare(i), witchWay(i));
-                if(boardModel.isFinished()) {
-                    // TODO
-                    endOfGame(Ball.WHITE);
-                    break;
-                }
-                boardView.setArrowsVisible(false);
-                boardView.setLabel(getLabel());
-            }
-        }
     }
 
     private void endOfGame(Ball ret) {
@@ -66,6 +53,7 @@ public class BoardCtrl {
         }
     }
 
+    // TODO sth
     private Point witchSquare(int i) {
         if(i == 0 || i == 1)
             return new Point(1, 1);
@@ -76,19 +64,11 @@ public class BoardCtrl {
         return new Point(4, 1);
     }
 
+    // TODO sth
     private int witchWay(int i) {
         if(i % 2 == 0)
             return -1;
         return 1;
-    }
-
-    private String getLabel() {
-        switch (boardModel.getTurn()) {
-            case BLACK_PLACE_BALL:
-                return GameConstant.TURN_BLACK;
-            default:
-                return GameConstant.TURN_WHITE;
-        }
     }
 
     public void quit() {
@@ -103,5 +83,22 @@ public class BoardCtrl {
     public boolean placeBallAndCheck(int i, Ball color) {
         boardModel.placeBall(i, color);
         return boardModel.isFinished();
+    }
+
+    public void setArrowsVisible(boolean arrowsVisible) {
+        boardView.setArrowsVisible(arrowsVisible);
+    }
+
+    public boolean rotateAndCheck(int i) {
+        boardModel.rotate(witchSquare(i), witchWay(i));
+        return boardModel.isFinished();
+    }
+
+    public void setLabel(String label) {
+        boardView.setLabel(label);
+    }
+
+    public boolean canPlaceBall(int i) {
+         return boardModel.canPlaceBall(i);
     }
 }

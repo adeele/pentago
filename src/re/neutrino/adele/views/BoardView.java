@@ -1,6 +1,6 @@
 package re.neutrino.adele.views;
 
-import re.neutrino.adele.Ball;
+import re.neutrino.adele.models.Ball;
 import re.neutrino.adele.FieldChangedEvent;
 import re.neutrino.adele.FieldChangedEventListener;
 import re.neutrino.adele.GameConstant;

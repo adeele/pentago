@@ -1,7 +1,7 @@
 package re.neutrino.adele.tests;
 
 import org.junit.Test;
-import re.neutrino.adele.Ball;
+import re.neutrino.adele.models.Ball;
 import re.neutrino.adele.models.BoardModel;
 
 import java.awt.*;
@@ -20,23 +20,11 @@ public class BoardModelTest {
     public void checkWinOblique() throws Exception {
         BoardModel boardModel = new BoardModel();
 
-        boardModel.placeBall(0, 0);
-        boardModel.rotate(new Point(1, 4), 1);
-        boardModel.placeBall(0, 5);
-        boardModel.rotate(new Point(1, 4), 1);
-        boardModel.placeBall(1, 1);
-        boardModel.rotate(new Point(1, 4), 1);
-        boardModel.placeBall(0, 1);
-        boardModel.rotate(new Point(1, 4), 1);
-        boardModel.placeBall(2, 2);
-        boardModel.rotate(new Point(1, 4), 1);
-        boardModel.placeBall(0, 2);
-        boardModel.rotate(new Point(1, 4), 1);
-        boardModel.placeBall(3, 3);
-        boardModel.rotate(new Point(1, 4), 1);
-        boardModel.placeBall(0, 3);
-        boardModel.rotate(new Point(1, 4), 1);
-        boardModel.placeBall(4, 4);
+        boardModel.placeBall(0, 0, Ball.WHITE);
+        boardModel.placeBall(1, 1, Ball.WHITE);
+        boardModel.placeBall(2, 2, Ball.WHITE);
+        boardModel.placeBall(3, 3, Ball.WHITE);
+        boardModel.placeBall(4, 4, Ball.WHITE);
 
         assertEquals(true, boardModel.isFinished());
     }
@@ -49,24 +37,12 @@ public class BoardModelTest {
     public void checkNotWinOnPermanentPlace() throws Exception {
         BoardModel boardModel = new BoardModel();
 
-        boardModel.placeBall(3, 0);
-        boardModel.rotate(new Point(1, 1), 1);
-        boardModel.placeBall(0, 0);
-        boardModel.rotate(new Point(1, 1), 1);
-        boardModel.placeBall(3, 1);
-        boardModel.rotate(new Point(1, 1), 1);
-        boardModel.placeBall(0, 1);
-        boardModel.rotate(new Point(1, 1), 1);
-        boardModel.placeBall(3, 2);
-        boardModel.rotate(new Point(1, 1), 1);
-        boardModel.placeBall(0, 2);
-        boardModel.rotate(new Point(1, 1), 1);
-        boardModel.placeBall(3, 4);
-        boardModel.rotate(new Point(1, 1), 1);
-        boardModel.placeBall(0, 5);
-        boardModel.rotate(new Point(1, 1), 1);
-        boardModel.placeBall(3, 5);
-        boardModel.rotate(new Point(1, 1), 1);
+        boardModel.placeBall(3, 0, Ball.WHITE);
+        boardModel.placeBall(3, 1, Ball.WHITE);
+        boardModel.placeBall(3, 2, Ball.WHITE);
+        boardModel.placeBall(3, 4, Ball.WHITE);
+        boardModel.placeBall(3, 5, Ball.WHITE);
+        boardModel.rotate(new Point(1, 4), 1);
 
         assertEquals(false, boardModel.isFinished());
     }
@@ -78,23 +54,11 @@ public class BoardModelTest {
     @Test
     public void checkWinAfterRotation() throws Exception {
         BoardModel boardModel = new BoardModel();
-        boardModel.placeBall(0, 0);
-        boardModel.rotate(new Point(1, 4), 1);
-        boardModel.placeBall(0, 5);
-        boardModel.rotate(new Point(1, 4), 1);
-        boardModel.placeBall(1, 1);
-        boardModel.rotate(new Point(1, 4), 1);
-        boardModel.placeBall(0, 1);
-        boardModel.rotate(new Point(1, 4), 1);
-        boardModel.placeBall(2, 2);
-        boardModel.rotate(new Point(1, 4), 1);
-        boardModel.placeBall(0, 2);
-        boardModel.rotate(new Point(1, 4), 1);
-        boardModel.placeBall(3, 5);
-        boardModel.rotate(new Point(1, 4), 1);
-        boardModel.placeBall(0, 3);
-        boardModel.rotate(new Point(1, 4), 1);
-        boardModel.placeBall(4, 4);
+        boardModel.placeBall(0, 0, Ball.WHITE);
+        boardModel.placeBall(1, 1, Ball.WHITE);
+        boardModel.placeBall(2, 2, Ball.WHITE);
+        boardModel.placeBall(3, 5, Ball.WHITE);
+        boardModel.placeBall(4, 4, Ball.WHITE);
         boardModel.rotate(new Point(4, 4), -1);
 
         assertEquals(true, boardModel.isFinished());

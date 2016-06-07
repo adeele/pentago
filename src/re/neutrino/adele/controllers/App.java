@@ -1,7 +1,6 @@
 package re.neutrino.adele.controllers;
 
 import re.neutrino.adele.GameConstant;
-import re.neutrino.adele.views.BoardView;
 
 import javax.swing.*;
 
@@ -9,6 +8,8 @@ import javax.swing.*;
  * Starts app
  */
 public class App {
+    // TODO check out docs
+    // TODO remove useless imports
     private final JFrame rootFrame = new JFrame(GameConstant.PENTAGO);
     private final MenuCtrl menuCtrl;
 

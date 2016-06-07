@@ -1,5 +1,7 @@
 package re.neutrino.adele;
 
+import re.neutrino.adele.models.Ball;
+
 /**
  * FieldChanged event object
  */
