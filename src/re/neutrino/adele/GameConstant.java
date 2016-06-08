@@ -3,7 +3,7 @@ package re.neutrino.adele;
 import java.awt.*;
 
 /**
- * Keeps game constants such as colors and strings
+ * Keeps game constants such as colors, strings and fonts
  */
 public class GameConstant {
     public static final Color FG_COLOR = new Color(16, 32, 38);

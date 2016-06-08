@@ -14,14 +14,19 @@ public class Circle {
     private Color color = null;
 
     /**
-     * Constructor
-     * @param x x-coord
-     * @param y y-coord
+     * Creates circle of the specific parameters
+     * @param x x-coordinate
+     * @param y y-coordinate
      * @param size diameter length
      */
     Circle(int x, int y, int size) {
         circle = new Ellipse2D.Double(x, y, size, size);
     }
+
+    /**
+     * Draws circle bounds
+     * @param g2 graphics
+     */
     void draw(Graphics2D g2) {
         if(color != null)
             fill(g2, color);
@@ -42,7 +47,7 @@ public class Circle {
     /**
      * Check if point is within the circle
      * @param p point
-     * @return if contains point
+     * @return if circle contains point
      */
     public boolean contains(Point p) {
        return circle.contains(p.x, p.y);

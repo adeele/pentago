@@ -1,11 +1,11 @@
 package re.neutrino.adele;
 
 /**
- * Interface for fieldChanged event listener
+ * Interface for the listener of field changed event
  */
 public interface FieldChangedEventListener {
     /**
-     * reaction for the event
+     * Reaction for the event
      * @param e event
      */
     void onFieldChanged(FieldChangedEvent e);

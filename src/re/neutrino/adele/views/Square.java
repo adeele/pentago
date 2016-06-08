@@ -12,9 +12,9 @@ class Square {
     private final Rectangle2D.Double square;
 
     /**
-     * Constructor
-     * @param x x-coord
-     * @param y y-coord
+     * Creates square with specific parameters given
+     * @param x x-coordinate
+     * @param y y-coordinate
      * @param size side length
      */
     Square(int x, int y, int size) {

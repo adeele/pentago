@@ -3,7 +3,7 @@ package re.neutrino.adele;
 import re.neutrino.adele.models.Ball;
 
 /**
- * FieldChanged event object
+ * Event generated after field changes
  */
 public class FieldChangedEvent {
     private final int x;
@@ -11,10 +11,10 @@ public class FieldChangedEvent {
     private final Ball ball;
 
     /**
-     * Creates an event, which is placing ball on coords (x, y)
-     * @param x coord
-     * @param y coord
-     * @param ball ball
+     * Creates an event, which is placing ball on the specific place
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @param ball color
      */
     public FieldChangedEvent(int x, int y, Ball ball) {
         this.x = x;
@@ -23,24 +23,24 @@ public class FieldChangedEvent {
     }
 
     /**
-     * Gives the x-cord of the field
-     * @return x-coord
+     * Gives the x-coordinate of the changed field
+     * @return x-coordinate
      */
     public int getX() {
         return x;
     }
 
     /**
-     * Gives the y-coord of the field
-     * @return y-coord
+     * Gives the y-coordinate of the changed field
+     * @return y-coordinate
      */
     public int getY() {
         return y;
     }
 
     /**
-     * Gives the ball of the ball placed
-     * @return ball ball
+     * Gives the color of the ball placed
+     * @return ball color
      */
     public Ball getBall() {
         return ball;

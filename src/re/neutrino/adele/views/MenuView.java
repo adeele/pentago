@@ -2,17 +2,12 @@ package re.neutrino.adele.views;
 
 import re.neutrino.adele.GameConstant;
 import re.neutrino.adele.controllers.MenuCtrl;
-import re.neutrino.adele.controllers.NetworkCtrl;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 
 /**
- * Class MenuView:
- * creates menu layout
+ * Menu screen layout and events
  */
 public class MenuView {
     private JPanel panel = new JPanel();
@@ -22,44 +17,48 @@ public class MenuView {
     private JLabel labelPentago = new JLabel(GameConstant.PENTAGO);
 
     /**
-     * Constructor draws all application buttons
+     * Draws all of the application buttons
      * @param menuCtrl reference to the controller
      */
     public MenuView(MenuCtrl menuCtrl) {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(GameConstant.BG_COLOR);
-        panel.add(labelPentago);
-        panel.add(Box.createRigidArea(new Dimension(80, 80)));
-        panel.add(buttonPlay);
-        panel.add(Box.createRigidArea(new Dimension(50, 50)));
-        panel.add(buttonPlayOnline);
-        panel.add(Box.createRigidArea(new Dimension(50, 50)));
-        panel.add(buttonQuit);
 
-        labelPentago.setBackground(GameConstant.BG_DARK_COLOR);
-        labelPentago.setOpaque(true);
-        labelPentago.setForeground(GameConstant.FG_COLOR);
-        labelPentago.setFont(GameConstant.DEFAULT_FONT_BIG);
-        labelPentago.setBorder(BorderFactory.createEmptyBorder(50, 293, 50, 293));
-        labelPentago.setAlignmentX(Component.CENTER_ALIGNMENT);
+        initLabel(labelPentago);
 
-        displayButton(buttonPlay, 30, 160);
+        addAndDisplayButton(buttonPlay, 30, 160);
         buttonPlay.addActionListener(e -> menuCtrl.buttonPlayCtrl());
 
-        displayButton(buttonPlayOnline, 30, 100);
+        addAndDisplayButton(buttonPlayOnline, 30, 100);
         buttonPlayOnline.addActionListener(e -> menuCtrl.buttonPlayOnlineCtrl());
 
-        displayButton(buttonQuit, 30, 160);
+        addAndDisplayButton(buttonQuit, 30, 160);
         buttonQuit.addActionListener(e -> menuCtrl.quit());
     }
 
     /**
-     * Displays button in proper place on panel
-     * @param button to display
-     * @param x x-coord
-     * @param y y-coord
+     * Initializes menu label
+     * @param label to set
      */
-    private void displayButton(JButton button, int x, int y) {
+    public void initLabel(JLabel label) {
+        panel.add(label);
+        label.setBackground(GameConstant.BG_DARK_COLOR);
+        label.setOpaque(true);
+        label.setForeground(GameConstant.FG_COLOR);
+        label.setFont(GameConstant.DEFAULT_FONT_BIG);
+        label.setBorder(BorderFactory.createEmptyBorder(50, 293, 50, 293));
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+    }
+
+    /**
+     * Adds and displays button in the appropriate place on panel
+     * @param button to display
+     * @param x x-coordinate
+     * @param y y-coordinate
+     */
+    private void addAndDisplayButton(JButton button, int x, int y) {
+        panel.add(Box.createRigidArea(new Dimension(80, 80)));
+        panel.add(button);
         button.setBackground(GameConstant.BG_LIGHT_COLOR);
         button.setBorder(BorderFactory.createEmptyBorder(x, y, x, y));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);

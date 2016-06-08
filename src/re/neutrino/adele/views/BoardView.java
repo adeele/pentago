@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Creates panel on witch draws the board
+ * Game main panel with the board to play
  */
 public class BoardView implements FieldChangedEventListener {
     private final BoardPanel panel = new BoardPanel();
@@ -25,6 +25,13 @@ public class BoardView implements FieldChangedEventListener {
     private final Circle[] circles = new Circle[36];
     private boolean arrowsVisibility = false;
     private boolean endOfGame = false;
+    private BufferedImage arrow1, arrow2, arrow3, arrow4, arrow5, arrow6, arrow7, arrow8;
+    private final Square[] squares = new Square[] {
+            new Square(150, 200, 250),
+            new Square(400, 200, 250),
+            new Square(150, 450, 250),
+            new Square(400, 450, 250)
+    };
     private final Rectangle[] arrows = new Rectangle[] {
             new Rectangle(110, 200, 40, 100),
             new Rectangle(150, 160, 100, 40),
@@ -35,16 +42,9 @@ public class BoardView implements FieldChangedEventListener {
             new Rectangle(150, 700, 100, 40),
             new Rectangle(110, 600, 40, 100),
     };
-    private final Square[] squares = new Square[] {
-            new Square(150, 200, 250),
-            new Square(400, 200, 250),
-            new Square(150, 450, 250),
-            new Square(400, 450, 250)
-    };
-    private BufferedImage arrow1, arrow2, arrow3, arrow4, arrow5, arrow6, arrow7, arrow8;
 
     /**
-     * Constructor
+     * Creates whole view of the board and surroundings
      * @param boardCtrl reference to the controller
      */
     public BoardView(BoardCtrl boardCtrl) {
@@ -83,8 +83,7 @@ public class BoardView implements FieldChangedEventListener {
     }
 
     /**
-     * Initializes panel
-     * Adds mouse listener waiting for click
+     * Initializes panel and adds mouse listener waiting for the move
      */
     private void initPanel() {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -166,7 +165,7 @@ public class BoardView implements FieldChangedEventListener {
     }
 
     /**
-     * Colors changed place
+     * Colors places if it has changed
      * @param e event
      */
     @Override
@@ -186,9 +185,9 @@ public class BoardView implements FieldChangedEventListener {
     }
 
     /**
-     * Translates 2D to 1D array
-     * @param x x-coord
-     * @param y y-coord
+     * Translates 2D array to 1D array
+     * @param x x-coordinate
+     * @param y y-coordinate
      * @return index in 1D array
      */
     private int getIndex(int x, int y) {
