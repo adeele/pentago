@@ -10,7 +10,6 @@ import java.util.ArrayList;
  */
 public class BoardModel implements FieldChangedEventProvider {
     private final ArrayList<FieldChangedEventListener> listeners = new ArrayList<>();
-    private Turn turn;
     private final Ball[][] balls = new Ball[6][6];
     private boolean finished = false;
 
@@ -18,7 +17,6 @@ public class BoardModel implements FieldChangedEventProvider {
      * Constructor
      */
     public BoardModel() {
-        turn = Turn.WHITE_PLACE_BALL;
         for (int i = 0; i < 6; i++) {
             balls[i] = new Ball[6];
             for(int j = 0; j < 6; j++)
@@ -37,7 +35,6 @@ public class BoardModel implements FieldChangedEventProvider {
      * @param x x-coordinate
      * @param y y-coordinate
      * @param color of the ball
-     * @return ball of the winner ball
      * (none if no win)
      */
     public void placeBall(int x, int y, Ball color) {
@@ -211,21 +208,6 @@ public class BoardModel implements FieldChangedEventProvider {
      */
     private boolean checkHorizontal(int x, int y, Ball color) {
         return countBalls(x, y, 0, 1, color) + countBalls(x, y, 0, -1, color) > 3;
-    }
-
-    /**
-     * Provides access to the turn
-     * @return turn
-     */
-    public Turn getTurn() {
-        return turn;
-    }
-
-    /**
-     * Sets turn on end-of-game mode
-     */
-    public void endOfGame() {
-        turn = Turn.END_OF_GAME;
     }
 
     public boolean isFinished() {

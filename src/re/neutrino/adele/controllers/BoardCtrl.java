@@ -38,19 +38,7 @@ public class BoardCtrl {
     }
 
     private void endOfGame(Ball ret) {
-        boardModel.endOfGame();
         boardView.endOfGame(ret);
-    }
-
-    public String checkWinner() {
-        switch (boardModel.getTurn()) {
-            case BLACK_PLACE_BALL:
-                return GameConstant.WINNER_BLACK;
-            case BLACK_ROTATE_BOARD:
-                return GameConstant.WINNER_BLACK;
-            default:
-                return GameConstant.WINNER_WHITE;
-        }
     }
 
     // TODO sth
