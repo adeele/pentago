@@ -66,14 +66,27 @@ public class BoardModel implements FieldChangedEventProvider {
 
     /**
      * Rotates the board and check if someone win
-     * @param center coordinates of the center of the rotated square
+     * @param square coordinates of the center of the rotated square
      * @param way of the rotation
-     * (none if no win)
      */
-    public void rotate(Point center, int way) {
+    public void rotate(int square, int way) {
+        Point center = getCenterPoint(square);
         swapCorners(center.x, center.y, way);
         swapEdges(center.x, center.y, way);
         checkBoardWin();
+    }
+
+    private Point getCenterPoint(int square) {
+        switch (square) {
+            case 1:
+                return new Point(1, 1);
+            case 2:
+                return new Point(1, 4);
+            case 3:
+                return new Point(4, 4);
+            default:
+                return new Point(4, 1);
+        }
     }
 
     /**

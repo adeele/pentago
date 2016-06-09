@@ -1,15 +1,14 @@
 package re.neutrino.adele.controllers;
 
 import re.neutrino.adele.models.Ball;
-import re.neutrino.adele.states.BallTurn;
-import re.neutrino.adele.GameConstant;
-import re.neutrino.adele.states.BaseState;
+import re.neutrino.adele.states.*;
 import re.neutrino.adele.models.BoardModel;
 import re.neutrino.adele.views.BoardView;
 import re.neutrino.adele.views.Circle;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * Controller for BoardView
@@ -20,6 +19,7 @@ public class BoardCtrl {
     private final BoardModel boardModel;
     private App app;
     private BaseState roundState;
+    private NetworkCtrl networkCtrl;
 
     BoardCtrl(App app) {
         boardView = new BoardView(this);
@@ -27,6 +27,34 @@ public class BoardCtrl {
         boardModel.addFieldChangedEventListener(boardView);
         this.app = app;
         roundState = new BallTurn(this, Ball.WHITE);
+    }
+
+    BoardCtrl(App app, NetworkCtrl networkCtrl, boolean server) {
+        boardView = new BoardView(this);
+        boardModel = new BoardModel();
+        boardModel.addFieldChangedEventListener(boardView);
+        this.app = app;
+        this.networkCtrl = networkCtrl;
+        if(server) {
+            try {
+                networkCtrl.listen();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            roundState = new BallTurn(this, Ball.WHITE);
+        }
+        else {
+            try {
+                networkCtrl.connect("localhost");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            roundState = new NetworkBallTurn(this, Ball.WHITE);
+        }
+    }
+
+    public boolean isOnline() {
+        return networkCtrl != null;
     }
 
     public void handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
@@ -42,14 +70,8 @@ public class BoardCtrl {
     }
 
     // TODO sth
-    private Point witchSquare(int i) {
-        if(i == 0 || i == 1)
-            return new Point(1, 1);
-        if(i == 2 || i == 3)
-            return new Point(1, 4);
-        if(i == 4 || i == 5)
-            return new Point(4, 4);
-        return new Point(4, 1);
+    private int witchSquare(int i) {
+        return i/2 + 1;
     }
 
     // TODO sth
@@ -70,6 +92,8 @@ public class BoardCtrl {
 
     public boolean placeBallAndCheck(int i, Ball color) {
         boardModel.placeBall(i, color);
+        if(isOnline())
+            submitBall(new BallMove(i%6, i/6), color);
         return boardModel.isFinished();
     }
 
@@ -77,8 +101,11 @@ public class BoardCtrl {
         boardView.setArrowsVisible(arrowsVisible);
     }
 
-    public boolean rotateAndCheck(int i) {
+    public boolean rotateAndCheck(int i, Ball ball) {
         boardModel.rotate(witchSquare(i), witchWay(i));
+        if(isOnline()) {
+            submitRotate(new RotateMove((byte) witchSquare(i), (byte) witchWay(i)), ball);
+        }
         return boardModel.isFinished();
     }
 
@@ -88,5 +115,51 @@ public class BoardCtrl {
 
     public boolean canPlaceBall(int i) {
          return boardModel.canPlaceBall(i);
+    }
+
+    private void submitMove(ByteRepresentable move, Ball ball) {
+        try {
+            networkCtrl.submitMove(move);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void submitBall(BallMove ballMove, Ball ball) {
+        submitMove(ballMove, ball);
+        roundState = new RotateTurn(this, ball);
+    }
+
+    private void submitRotate(RotateMove rotateMove, Ball ball) {
+        submitMove(rotateMove, ball);
+        roundState = new NetworkBallTurn(this, ball);
+    }
+
+    public BallMove readBall() {
+        try {
+            byte[] msg = networkCtrl.read();
+            return new BallMove(msg[1], msg[2]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void setNextTurn(BaseState turn) {
+            this.roundState = turn;
+    }
+
+    public RotateMove readRotation() {
+        try {
+            byte[] msg = networkCtrl.read();
+            return new RotateMove(msg[1], msg[2]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -36,4 +36,12 @@ public class MenuCtrl {
     public void buttonPlayOnlineCtrl() {
         menuView.createOnlineModeView(this);
     }
+
+    public void joinGame() {
+        app.startGameClient();
+    }
+
+    public void createGame() {
+        app.startGameServer();
+    }
 }

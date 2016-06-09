@@ -10,12 +10,14 @@ import java.awt.*;
  * Represents generic state of the game
  */
 public abstract class BaseState {
-    protected final BoardCtrl context;
+    final BoardCtrl context;
     protected Ball ball;
 
     BaseState(BoardCtrl context, Ball ball) {
         this.context = context;
         this.ball = ball;
     }
-    public abstract BaseState handleClick(Circle[] circles, Rectangle[] arrows, Point point);
+    public BaseState handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
+        return this;
+    }
 }

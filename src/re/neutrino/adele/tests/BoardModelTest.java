@@ -42,7 +42,7 @@ public class BoardModelTest {
         boardModel.placeBall(3, 2, Ball.WHITE);
         boardModel.placeBall(3, 4, Ball.WHITE);
         boardModel.placeBall(3, 5, Ball.WHITE);
-        boardModel.rotate(new Point(1, 4), 1);
+        boardModel.rotate(2, 1);
 
         assertEquals(false, boardModel.isFinished());
     }
@@ -59,7 +59,7 @@ public class BoardModelTest {
         boardModel.placeBall(2, 2, Ball.WHITE);
         boardModel.placeBall(3, 5, Ball.WHITE);
         boardModel.placeBall(4, 4, Ball.WHITE);
-        boardModel.rotate(new Point(4, 4), -1);
+        boardModel.rotate(3, -1);
 
         assertEquals(true, boardModel.isFinished());
     }

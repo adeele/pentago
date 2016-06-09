@@ -8,10 +8,11 @@ import javax.swing.*;
  * Starts app
  */
 public class App {
-    // TODO check out docs
+    // TODO checkout docs
     // TODO remove useless imports
     private final JFrame rootFrame = new JFrame(GameConstant.PENTAGO);
     private final MenuCtrl menuCtrl;
+    private NetworkCtrl networkCtrl;
 
     /**
      * App constructor
@@ -33,6 +34,21 @@ public class App {
         rootFrame.setVisible(true);
     }
 
+    void startGameServer() {
+        menuCtrl.detachFromFrame(rootFrame);
+        networkCtrl = new NetworkCtrl();
+        BoardCtrl boardCtrl = new BoardCtrl(this, networkCtrl, GameConstant.SERVER);
+        boardCtrl.attachToFrame(rootFrame);
+        rootFrame.setVisible(true);
+    }
+
+    void startGameClient() {
+        menuCtrl.detachFromFrame(rootFrame);
+        networkCtrl = new NetworkCtrl();
+        BoardCtrl boardCtrl = new BoardCtrl(this, networkCtrl, GameConstant.CLIENT);
+        boardCtrl.attachToFrame(rootFrame);
+        rootFrame.setVisible(true);
+    }
     /**
      * Exits game
      */

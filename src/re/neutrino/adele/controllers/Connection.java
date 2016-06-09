@@ -28,7 +28,7 @@ abstract class Connection {
     }
 
     byte[] read() throws IOException, InterruptedException {
-        byte[] msg = new byte[4];
+        byte[] msg = new byte[3];
         int i;
         for(i = 0; i < GameConstant.TIMEOUT && in.read(msg) <= 0; i++)
             Thread.sleep(1000);

@@ -15,6 +15,10 @@ public class MenuView {
     private JButton buttonPlayOnline = new JButton(GameConstant.PLAY_ONLINE);
     private JButton buttonQuit = new JButton(GameConstant.QUIT);
     private JLabel labelPentago = new JLabel(GameConstant.PENTAGO);
+    private JButton buttonCreateGame = new JButton(GameConstant.CREATE_GAME);
+    private JButton buttonJoinGame = new JButton(GameConstant.JOIN_GAME);
+    private JTextField textFieldEnterIP = new JTextField();
+    private JLabel labelEnterIP = new JLabel(GameConstant.EnterIP);
 
     /**
      * Draws all of the application buttons
@@ -40,7 +44,7 @@ public class MenuView {
      * Initializes menu label
      * @param label to set
      */
-    public void initLabel(JLabel label) {
+    private void initLabel(JLabel label) {
         panel.add(label);
         label.setBackground(GameConstant.BG_DARK_COLOR);
         label.setOpaque(true);
@@ -79,15 +83,17 @@ public class MenuView {
      * @param menuCtrl reference to the controller
      */
     public void createOnlineModeView(MenuCtrl menuCtrl) {
-        buttonPlay.setText(GameConstant.CREATE_GAME);
-        buttonPlay.setBorder(BorderFactory.createEmptyBorder(30, 85, 30, 85));
-        buttonPlay.removeNotify();
-        //buttonPlay.addActionListener(e -> menuCtrl.createGame());
-        buttonPlayOnline.setText(GameConstant.JOIN_GAME);
-        buttonPlayOnline.setBorder(BorderFactory.createEmptyBorder(30, 110, 30, 110));
-        buttonPlayOnline.removeNotify();
-        //buttonPlayOnline.addActionListener(e -> menuCtrl.joinGame());
+        panel.removeAll();
+        initLabel(labelPentago);
 
-        panel.repaint();
+        addAndDisplayButton(buttonCreateGame, 30, 90);
+        buttonCreateGame.addActionListener(e -> menuCtrl.createGame());
+
+        addAndDisplayButton(buttonJoinGame, 30, 110);
+        buttonJoinGame.addActionListener(e -> menuCtrl.joinGame());
+
+
+        addAndDisplayButton(buttonQuit, 30, 160);
+        buttonQuit.addActionListener(e -> menuCtrl.quit());
     }
 }

@@ -22,11 +22,15 @@ public class GameConstant {
     public static final String WINNER_WHITE = "WIN: WHITE!";
     public static final String WINNER_BLACK = "WIN: BLACK!";
     public static final int PORT = 2778;
-    public static final byte MESSAGE_MOVE = 1;
-    public static final byte MESSAGE_LOSS = 2;
     public static final int TIMEOUT = 100;
     public static final String CREATE_GAME = "Create Game";
     public static final String JOIN_GAME = "Join Game";
     public static final String WIN_FORMAT = "WIN: %s";
     public static final String TURN_FORMAT = "TURN: %s";
+    public static final byte MESSAGE_LOSS = 1;
+    public static final byte MESSAGE_BALL_MOVE = 2;
+    public static final byte MESSAGE_ROTATE_MOVE = 3;
+    public static final boolean SERVER = true;
+    public static final boolean CLIENT = false;
+    public static final String EnterIP = "Enter server IP";
 }

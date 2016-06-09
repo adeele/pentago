@@ -9,8 +9,8 @@ import java.awt.*;
 /**
  * Represents rotation state
  */
-class RotateTurn extends BaseState {
-    RotateTurn(BoardCtrl context, Ball ball) {
+public class RotateTurn extends BaseState {
+    public RotateTurn(BoardCtrl context, Ball ball) {
         super(context, ball);
         context.setArrowsVisible(true);
     }
@@ -19,8 +19,10 @@ class RotateTurn extends BaseState {
     public BaseState handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
         for (int i = 0; i < 8; i++) {
             if (arrows[i].contains(point)) {
-                if(context.rotateAndCheck(i))
+                if(context.rotateAndCheck(i, ball))
                     return new EndOfGameState(context, ball);
+                if(context.isOnline())
+                    return new NetworkBallTurn(context, ball.getOpposite());
                 return new BallTurn(context, ball.getOpposite());
             }
         }

@@ -2,6 +2,7 @@ package re.neutrino.adele.controllers;
 
 import re.neutrino.adele.GameConstant;
 import re.neutrino.adele.models.Move;
+import re.neutrino.adele.states.ByteRepresentable;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -11,31 +12,34 @@ import java.net.SocketException;
  */
 public class NetworkCtrl {
     private Connection conn;
+    private boolean server;
 
-    public void connect(String address) throws IOException {
+    void connect(String address) throws IOException {
         if(conn != null)
             disconnect();
         conn = new ClientConnection(address, GameConstant.PORT);
+        server = false;
     }
 
-    public void listen() throws IOException {
+    void listen() throws IOException {
         if(conn != null)
             disconnect();
         conn = new ServerConnection(GameConstant.PORT);
+        server = true;
     }
 
-    public byte[] read() throws IOException, InterruptedException {
+    byte[] read() throws IOException, InterruptedException {
         checkConn();
         return conn.read();
     }
 
-    public void submitMove(Move move) throws IOException {
+    public boolean isServer() {
+        return server;
+    }
+
+    void submitMove(ByteRepresentable move) throws IOException {
         checkConn();
-        byte[] msg = new byte[4];
-        msg[0] = GameConstant.MESSAGE_MOVE;
-        msg[1] = move.getBallNumber();
-        msg[2] = move.getSquareNumber();
-        msg[3] = move.getDirection();
+        byte[] msg = move.toBytes();
         conn.send(msg);
     }
 
