@@ -11,7 +11,7 @@ public class BallMove implements ByteRepresentable {
     private int y;
 
     public int getI() {
-        return x * 6 + y;
+        return x + y*6;
     }
 
     public BallMove(int x, int y) {

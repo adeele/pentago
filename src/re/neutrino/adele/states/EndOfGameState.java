@@ -18,7 +18,7 @@ class EndOfGameState extends BaseState {
     }
 
 
-    private String getLabel() {
+    String getLabel() {
         return String.format(GameConstant.WIN_FORMAT, ball.name());
     }
 }

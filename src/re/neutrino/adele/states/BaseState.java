@@ -1,5 +1,6 @@
 package re.neutrino.adele.states;
 
+import re.neutrino.adele.GameConstant;
 import re.neutrino.adele.models.Ball;
 import re.neutrino.adele.controllers.BoardCtrl;
 import re.neutrino.adele.views.Circle;
@@ -20,5 +21,7 @@ public abstract class BaseState {
     public void handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
     }
 
-    public void init(){}
+    String getLabel() {
+        return String.format(GameConstant.TURN_FORMAT, ball.name());
+    }
 }

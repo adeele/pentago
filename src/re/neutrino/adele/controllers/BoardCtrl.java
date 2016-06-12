@@ -41,7 +41,7 @@ public class BoardCtrl {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            setNextTurn(new BallTurn(this, Ball.WHITE));
+            roundState = new BallTurn(this, Ball.WHITE);
         }
         else {
             try {
@@ -49,7 +49,7 @@ public class BoardCtrl {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            setNextTurn(new NetworkBallTurn(this, Ball.WHITE));
+            roundState = new NetworkBallTurn(this, Ball.WHITE);
         }
     }
 
@@ -57,25 +57,23 @@ public class BoardCtrl {
         return networkCtrl != null;
     }
 
-    public synchronized void handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
-        roundState.handleClick(circles, arrows, point);
+    public void handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
+        synchronized (this) {
+            roundState.handleClick(circles, arrows, point);
+        }
     }
 
     void attachToFrame(JFrame rootFrame) {
         rootFrame.add(boardView.getPanel());
     }
 
-    private void endOfGame(Ball ret) {
-        boardView.endOfGame(ret);
-    }
-
     // TODO sth
-    private int witchSquare(int i) {
+    public int witchSquare(int i) {
         return i/2 + 1;
     }
 
     // TODO sth
-    private int witchWay(int i) {
+    public int witchWay(int i) {
         if(i % 2 == 0)
             return -1;
         return 1;
@@ -92,8 +90,6 @@ public class BoardCtrl {
 
     public boolean placeBallAndCheck(int i, Ball color) {
         boardModel.placeBall(i, color);
-        if(isOnline())
-            submitBall(new BallMove(i%6, i/6), color);
         return boardModel.isFinished();
     }
 
@@ -101,11 +97,8 @@ public class BoardCtrl {
         boardView.setArrowsVisible(arrowsVisible);
     }
 
-    public boolean rotateAndCheck(int i, Ball ball) {
+    public boolean rotateAndCheck(int i) {
         boardModel.rotate(witchSquare(i), witchWay(i));
-        if(isOnline()) {
-            submitRotate(new RotateMove((byte) witchSquare(i), (byte) witchWay(i)), ball);
-        }
         return boardModel.isFinished();
     }
 
@@ -117,7 +110,7 @@ public class BoardCtrl {
          return boardModel.canPlaceBall(i);
     }
 
-    private void submitMove(ByteRepresentable move, Ball ball) {
+    private void submitMove(ByteRepresentable move) {
         try {
             networkCtrl.submitMove(move);
         } catch (IOException e) {
@@ -125,55 +118,21 @@ public class BoardCtrl {
         }
     }
 
-    private void submitBall(BallMove ballMove, Ball ball) {
-        submitMove(ballMove, ball);
-        roundState = new RotateTurn(this, ball);
+    public void submitBall(BallMove ballMove) {
+        submitMove(ballMove);
     }
 
-    private void submitRotate(RotateMove rotateMove, Ball ball) {
-        submitMove(rotateMove, ball);
-        roundState = new NetworkBallTurn(this, ball);
+    public void submitRotate(RotateMove rotateMove) {
+        submitMove(rotateMove);
     }
 
-    public BallMove readBall() {
-        networkCtrl.readAsync(new BallHandler() {
-            @Override
-            public void handleBall(BallMove move) {
-
-            }
-
-            @Override
-            public void handleError(Exception e) {
-
-            }
-        });
-
-
-//        try {
-//            byte[] msg = networkCtrl.read();
-//            return new BallMove(msg[1], msg[2]);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-        return null;
-    }
-
-    public synchronized void setNextTurn(BaseState turn) {
-        this.roundState = turn;
-        turn.init();
-    }
-
-    public RotateMove readRotation() {
-        try {
-            byte[] msg = networkCtrl.read();
-            return new RotateMove(msg[1], msg[2]);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public void setNextTurn(BaseState turn) {
+        synchronized (this) {
+            this.roundState = turn;
         }
-        return null;
+    }
+
+    public void readAsync(ReadHandler handler) {
+        networkCtrl.readAsync(handler);
     }
 }

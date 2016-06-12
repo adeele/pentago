@@ -3,6 +3,7 @@ package re.neutrino.adele.controllers;
 import re.neutrino.adele.GameConstant;
 
 import javax.swing.*;
+import java.util.Arrays;
 
 /**
  * Starts app
