@@ -28,6 +28,21 @@ public class NetworkCtrl {
         server = true;
     }
 
+    public void readAsync(ReadHandler handler) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    byte[] result = read();
+                    handler.handleSuccess(result);
+                } catch (Exception e) {
+                    handler.handleError(e);
+                }
+            }
+        }).run();
+
+    }
+
     byte[] read() throws IOException, InterruptedException {
         checkConn();
         return conn.read();

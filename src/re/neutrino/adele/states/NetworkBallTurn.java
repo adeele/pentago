@@ -9,6 +9,10 @@ import re.neutrino.adele.controllers.BoardCtrl;
 public class NetworkBallTurn extends BaseState {
     public NetworkBallTurn(BoardCtrl context, Ball ball) {
         super(context, ball);
+    }
+
+    @Override
+    public void init() {
         BallMove move = context.readBall();
         context.placeBallAndCheck(move.getI(), ball);
         context.setNextTurn(new NetworkRotateTurn(context, ball));

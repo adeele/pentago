@@ -16,16 +16,17 @@ public class RotateTurn extends BaseState {
     }
 
     @Override
-    public BaseState handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
+    public void handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
         for (int i = 0; i < 8; i++) {
             if (arrows[i].contains(point)) {
-                if(context.rotateAndCheck(i, ball))
-                    return new EndOfGameState(context, ball);
-                if(context.isOnline())
-                    return new NetworkBallTurn(context, ball.getOpposite());
-                return new BallTurn(context, ball.getOpposite());
+                if(context.rotateAndCheck(i, ball)) {
+                    context.setNextTurn(new EndOfGameState(context, ball));
+                } else if(context.isOnline()) {
+                    context.setNextTurn(new NetworkBallTurn(context, ball.getOpposite()));
+                } else {
+                    context.setNextTurn(new BallTurn(context, ball.getOpposite()));
+                }
             }
         }
-        return this;
     }
 }

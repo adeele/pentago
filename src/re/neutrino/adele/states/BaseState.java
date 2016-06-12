@@ -17,7 +17,8 @@ public abstract class BaseState {
         this.context = context;
         this.ball = ball;
     }
-    public BaseState handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
-        return this;
+    public void handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
     }
+
+    public void init(){}
 }

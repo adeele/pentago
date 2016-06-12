@@ -41,7 +41,7 @@ public class BoardCtrl {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            roundState = new BallTurn(this, Ball.WHITE);
+            setNextTurn(new BallTurn(this, Ball.WHITE));
         }
         else {
             try {
@@ -49,7 +49,7 @@ public class BoardCtrl {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            roundState = new NetworkBallTurn(this, Ball.WHITE);
+            setNextTurn(new NetworkBallTurn(this, Ball.WHITE));
         }
     }
 
@@ -57,8 +57,8 @@ public class BoardCtrl {
         return networkCtrl != null;
     }
 
-    public void handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
-        roundState = roundState.handleClick(circles, arrows, point);
+    public synchronized void handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
+        roundState.handleClick(circles, arrows, point);
     }
 
     void attachToFrame(JFrame rootFrame) {
@@ -136,19 +136,33 @@ public class BoardCtrl {
     }
 
     public BallMove readBall() {
-        try {
-            byte[] msg = networkCtrl.read();
-            return new BallMove(msg[1], msg[2]);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        networkCtrl.readAsync(new BallHandler() {
+            @Override
+            public void handleBall(BallMove move) {
+
+            }
+
+            @Override
+            public void handleError(Exception e) {
+
+            }
+        });
+
+
+//        try {
+//            byte[] msg = networkCtrl.read();
+//            return new BallMove(msg[1], msg[2]);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         return null;
     }
 
-    public void setNextTurn(BaseState turn) {
-            this.roundState = turn;
+    public synchronized void setNextTurn(BaseState turn) {
+        this.roundState = turn;
+        turn.init();
     }
 
     public RotateMove readRotation() {

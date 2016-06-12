@@ -17,10 +17,6 @@ class EndOfGameState extends BaseState {
         context.setLabel(getLabel());
     }
 
-    @Override
-    public BaseState handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
-        return this;
-    }
 
     private String getLabel() {
         return String.format(GameConstant.WIN_FORMAT, ball.name());

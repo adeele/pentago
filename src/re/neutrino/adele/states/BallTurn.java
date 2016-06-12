@@ -23,16 +23,17 @@ public class BallTurn extends BaseState {
     }
 
     @Override
-    public BaseState handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
+    public void handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
         for (int i = 0; i < 36; i++) {
             if (circles[i].contains(point)) {
                 if(context.canPlaceBall(i)) {
-                    if (context.placeBallAndCheck(i, ball))
-                        return new EndOfGameState(context, ball);
-                    return new RotateTurn(context, ball);
+                    if (context.placeBallAndCheck(i, ball)) {
+                        context.setNextTurn(new EndOfGameState(context, ball));
+                        return;
+                    }
+                    context.setNextTurn(new RotateTurn(context, ball));
                 }
             }
         }
-        return this;
     }
 }
