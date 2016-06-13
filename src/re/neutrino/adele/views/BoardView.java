@@ -1,6 +1,5 @@
 package re.neutrino.adele.views;
 
-import re.neutrino.adele.models.Ball;
 import re.neutrino.adele.FieldChangedEvent;
 import re.neutrino.adele.FieldChangedEventListener;
 import re.neutrino.adele.GameConstant;
@@ -18,7 +17,8 @@ import java.io.IOException;
 /**
  * Game main panel with the board to play
  */
-public class BoardView implements FieldChangedEventListener {
+public class BoardView implements FieldChangedEventListener
+{
     private final BoardPanel panel = new BoardPanel();
     private JLabel header = new JLabel(GameConstant.TURN_WHITE);
     private final BoardCtrl boardCtrl;
@@ -26,13 +26,13 @@ public class BoardView implements FieldChangedEventListener {
     private boolean arrowsVisibility = false;
     private boolean endOfGame = false;
     private BufferedImage arrow1, arrow2, arrow3, arrow4, arrow5, arrow6, arrow7, arrow8;
-    private final Square[] squares = new Square[] {
+    private final Square[] squares = new Square[]{
             new Square(150, 200, 250),
             new Square(400, 200, 250),
             new Square(150, 450, 250),
             new Square(400, 450, 250)
     };
-    private final Rectangle[] arrows = new Rectangle[] {
+    private final Rectangle[] arrows = new Rectangle[]{
             new Rectangle(110, 200, 40, 100),
             new Rectangle(150, 160, 100, 40),
             new Rectangle(550, 160, 100, 40),
@@ -42,13 +42,17 @@ public class BoardView implements FieldChangedEventListener {
             new Rectangle(150, 700, 100, 40),
             new Rectangle(110, 600, 40, 100),
     };
+    private boolean drawEndOfGame = false;
 
     /**
      * Creates whole view of the board and surroundings
+     *
      * @param boardCtrl reference to the controller
      */
-    public BoardView(BoardCtrl boardCtrl) {
-        try {
+    public BoardView(BoardCtrl boardCtrl)
+    {
+        try
+        {
             arrow1 = ImageIO.read(new File("/home/adele/studies/pentago/src/re/neutrino/adele/images/arrow1.png"));
             arrow2 = ImageIO.read(new File("/home/adele/studies/pentago/src/re/neutrino/adele/images/arrow2.png"));
             arrow3 = ImageIO.read(new File("/home/adele/studies/pentago/src/re/neutrino/adele/images/arrow3.png"));
@@ -57,8 +61,8 @@ public class BoardView implements FieldChangedEventListener {
             arrow6 = ImageIO.read(new File("/home/adele/studies/pentago/src/re/neutrino/adele/images/arrow6.png"));
             arrow7 = ImageIO.read(new File("/home/adele/studies/pentago/src/re/neutrino/adele/images/arrow7.png"));
             arrow8 = ImageIO.read(new File("/home/adele/studies/pentago/src/re/neutrino/adele/images/arrow8.png"));
-        }
-        catch (IOException ex) {
+        } catch (IOException ex)
+        {
             System.err.println(ex.getMessage());
         }
 
@@ -73,7 +77,8 @@ public class BoardView implements FieldChangedEventListener {
     /**
      * Initializes label header
      */
-    private void initHeader() {
+    private void initHeader()
+    {
         header.setBackground(GameConstant.BG_DARK_COLOR);
         header.setOpaque(true);
         header.setForeground(GameConstant.FG_COLOR);
@@ -85,49 +90,72 @@ public class BoardView implements FieldChangedEventListener {
     /**
      * Initializes panel and adds mouse listener waiting for the move
      */
-    private void initPanel() {
+    private void initPanel()
+    {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.addMouseListener(new MouseListener() {
-
+        panel.addMouseListener(new MouseListener()
+        {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent e)
+            {
                 boardCtrl.handleClick(circles, arrows, e.getPoint());
-                if((header.getText().equals(GameConstant.WINNER_WHITE) || header.getText().equals(GameConstant.WINNER_BLACK)) && e.getClickCount() == 2 ) {
+                if (endOfGame && e.getClickCount() == 2)
+                {
+                    drawEndOfGame = true;
                     drawEndOfGamePanel();
                 }
             }
 
             @Override
-            public void mousePressed(MouseEvent e) {
+            public void mousePressed(MouseEvent e)
+            {
             }
 
             @Override
-            public void mouseReleased(MouseEvent e) {
+            public void mouseReleased(MouseEvent e)
+            {
             }
 
             @Override
-            public void mouseEntered(MouseEvent e) {
+            public void mouseEntered(MouseEvent e)
+            {
             }
 
             @Override
-            public void mouseExited(MouseEvent e) {
+            public void mouseExited(MouseEvent e)
+            {
             }
         });
+    }
+
+    /**
+     * Draws panel at the end of game
+     */
+    private void drawEndOfGamePanel()
+    {
+        drawEndOfGame = true;
+        JButton buttonMenu = displayButton("Menu", 160, 40, 120);
+        buttonMenu.addActionListener(e -> boardCtrl.openMenu());
+        JButton buttonQuit = displayButton("Quit", 50, 40, 130);
+        buttonQuit.addActionListener(e -> boardCtrl.quit());
     }
 
     /**
      * Draws board and ball places
      * @param g graphics
      */
-    private void drawBoard(Graphics g) {
+    private void drawBoard(Graphics g)
+    {
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(5));
 
-        for(Square s : squares) {
+        for (Square s : squares)
+        {
             s.draw(g2);
         }
 
-        for(Circle c : circles) {
+        for (Circle c : circles)
+        {
             c.draw(g2);
         }
     }
@@ -135,13 +163,16 @@ public class BoardView implements FieldChangedEventListener {
     /**
      * Initializes ball places
      */
-    private void initPlaces() {
+    private void initPlaces()
+    {
         int x = 0, y = 0;
-        for(int i = 0; i < 6; i++) {
-            if(i >= 3)
+        for (int i = 0; i < 6; i++)
+        {
+            if (i >= 3)
                 x = 30;
-            for(int j = 0; j < 6; j++) {
-                if(j >= 3)
+            for (int j = 0; j < 6; j++)
+            {
+                if (j >= 3)
                     y = 30;
                 circles[i * 6 + j] = new Circle(180 + x + 75 * i, 230 + y + 75 * j, 40);
             }
@@ -152,26 +183,32 @@ public class BoardView implements FieldChangedEventListener {
     /**
      * Repaints the panel
      */
-    private void repaint() {
+    private void repaint()
+    {
         panel.repaint();
     }
 
     /**
      * Provides access to the panel
+     *
      * @return panel
      */
-    public JPanel getPanel() {
+    public JPanel getPanel()
+    {
         return panel;
     }
 
     /**
      * Colors places if it has changed
+     *
      * @param e event
      */
     @Override
-    public void onFieldChanged(FieldChangedEvent e) {
+    public void onFieldChanged(FieldChangedEvent e)
+    {
         Circle circle = circles[getIndex(e.getX(), e.getY())];
-        switch (e.getBall()) {
+        switch (e.getBall())
+        {
             case BLACK:
                 circle.setBlack();
                 break;
@@ -186,31 +223,22 @@ public class BoardView implements FieldChangedEventListener {
 
     /**
      * Translates 2D array to 1D array
+     *
      * @param x x-coordinate
      * @param y y-coordinate
      * @return index in 1D array
      */
-    private int getIndex(int x, int y) {
+    private int getIndex(int x, int y)
+    {
         return x + y * 6;
-    }
-
-    /**
-     * Informs about the winner
-     * @param ball winner ball
-     */
-    private void setLabelWin(Ball ball) {
-        if(ball == Ball.BLACK)
-            header.setText(GameConstant.WINNER_BLACK);
-        else
-            header.setText(GameConstant.WINNER_WHITE);
-        repaint();
     }
 
     /**
      * Changes label text after switch turn
      * @param label with changed text
      */
-    public void setLabel(String label) {
+    public void setLabel(String label)
+    {
         header.setText(label);
     }
 
@@ -218,14 +246,16 @@ public class BoardView implements FieldChangedEventListener {
      * Decides if display arrows
      * @param visibility if display or not
      */
-    public void setArrowsVisible(boolean visibility) {
+    public void setArrowsVisible(boolean visibility)
+    {
         arrowsVisibility = visibility;
     }
 
     /**
      * Displays button on the end of the game
      */
-    private JButton displayButton(String label, int offset, int x, int y) {
+    private JButton displayButton(String label, int offset, int x, int y)
+    {
         JButton button = new JButton(label);
         panel.add(Box.createRigidArea(new Dimension(offset, offset)));
         panel.add(button);
@@ -240,43 +270,37 @@ public class BoardView implements FieldChangedEventListener {
     }
 
     /**
-     * Displays end-of-game buttons
-     */
-    private void drawEndOfGamePanel() {
-        endOfGame = true;
-        JButton buttonMenu = displayButton("Menu", 160, 40, 120);
-        buttonMenu.addActionListener(e -> boardCtrl.openMenu());
-        JButton buttonQuit = displayButton("Quit", 50, 40, 130);
-        buttonQuit.addActionListener(e -> boardCtrl.quit());
-    }
-
-    /**
      * End-of-game action
-     * @param winner who wins
      */
-    public void endOfGame(Ball winner) {
-        setLabelWin(winner);
+    public void endOfGame()
+    {
+        endOfGame = true;
     }
 
     /**
      * Panel inherits JPanel drawing ability
      */
-    private class BoardPanel extends JPanel {
+    private class BoardPanel extends JPanel
+    {
         @Override
-        public void paintComponent(Graphics g) {
+        public void paintComponent(Graphics g)
+        {
             Graphics2D g2 = (Graphics2D) g;
-            if(arrowsVisibility) {
+            if (arrowsVisibility)
+            {
                 drawBoard(g);
                 drawArrows(g);
-            }
-            else {
-                for (Rectangle rect: arrows) {
+            } else
+            {
+                for (Rectangle rect : arrows)
+                {
                     g2.setPaint(GameConstant.BG_COLOR);
                     g2.fill(rect);
                     drawBoard(g);
                 }
             }
-            if(endOfGame) {
+            if (drawEndOfGame)
+            {
                 Rectangle frame = new Rectangle(200, 250, 400, 400);
                 g2.setPaint(GameConstant.BOREDER_COLOR);
                 g2.fill(frame);
@@ -290,7 +314,8 @@ public class BoardView implements FieldChangedEventListener {
      * Draw arrows on appropriate places
      * @param g graphics
      */
-    private void drawArrows(Graphics g) {
+    private void drawArrows(Graphics g)
+    {
         g.drawImage(arrow1, 150, 160, 100, 40, null);
         g.drawImage(arrow2, 550, 160, 100, 40, null);
         g.drawImage(arrow3, 650, 200, 40, 100, null);

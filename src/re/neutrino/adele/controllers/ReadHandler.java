@@ -1,9 +1,18 @@
 package re.neutrino.adele.controllers;
 
 /**
- * Created by adele on 6/12/16.
+ * Handler of the reading
  */
-interface ReadHandler {
+interface ReadHandler
+{
+    /**
+     * Has to handle success
+     */
     void handleSuccess(byte[] msg);
+
+    /**
+     * Has to handle error
+     * @param e exception thrown
+     */
     void handleError(Exception e);
 }

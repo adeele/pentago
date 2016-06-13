@@ -11,13 +11,16 @@ import static org.junit.Assert.*;
 /**
  * Checking win test
  */
-public class BoardModelTest {
+public class BoardModelTest
+{
     /**
      * Tests if reports win on obliques
+     *
      * @throws Exception
      */
     @Test
-    public void checkWinOblique() throws Exception {
+    public void checkWinOblique() throws Exception
+    {
         BoardModel boardModel = new BoardModel();
 
         boardModel.placeBall(0, 0, Ball.WHITE);
@@ -31,10 +34,12 @@ public class BoardModelTest {
 
     /**
      * Tests if not report the win after checking place with no ball
+     *
      * @throws Exception
      */
     @Test
-    public void checkNotWinOnPermanentPlace() throws Exception {
+    public void checkNotWinOnPermanentPlace() throws Exception
+    {
         BoardModel boardModel = new BoardModel();
 
         boardModel.placeBall(3, 0, Ball.WHITE);
@@ -49,10 +54,12 @@ public class BoardModelTest {
 
     /**
      * Tests if reports win after rotation
+     *
      * @throws Exception
      */
     @Test
-    public void checkWinAfterRotation() throws Exception {
+    public void checkWinAfterRotation() throws Exception
+    {
         BoardModel boardModel = new BoardModel();
         boardModel.placeBall(0, 0, Ball.WHITE);
         boardModel.placeBall(1, 1, Ball.WHITE);

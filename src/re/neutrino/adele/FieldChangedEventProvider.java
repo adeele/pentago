@@ -3,7 +3,8 @@ package re.neutrino.adele;
 /**
  * Interface for the provider of field changed event
  */
-public interface FieldChangedEventProvider {
+public interface FieldChangedEventProvider
+{
     /**
      * Notifies all listeners about the field change
      * @param e event

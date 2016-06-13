@@ -4,27 +4,43 @@ import re.neutrino.adele.GameConstant;
 
 /**
  * Ball placing move
- * Created by adele on 6/8/16.
  */
-public class BallMove implements ByteRepresentable {
+public class BallMove implements ByteRepresentable
+{
     private int x;
     private int y;
 
-    public int getI() {
-        return x + y*6;
+    /**
+     * Returns linear access to the ball
+     * @return i-coordinate
+     */
+    public int getI()
+    {
+        return x + y * 6;
     }
 
-    public BallMove(int x, int y) {
+    /**
+     * Creates ball move on the specific place
+     * @param x-coordinate
+     * @param y-coordinate
+     */
+    public BallMove(int x, int y)
+    {
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * Converts coordinates to the byte array
+     * @return message (array of bytes)
+     */
     @Override
-    public byte[] toBytes() {
+    public byte[] toBytes()
+    {
         byte[] msg = new byte[3];
         msg[0] = GameConstant.MESSAGE_BALL_MOVE;
-        msg[1] = (byte)x;
-        msg[2] = (byte)y;
+        msg[1] = (byte) x;
+        msg[2] = (byte) y;
         return msg;
     }
 }

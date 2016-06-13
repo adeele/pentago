@@ -10,15 +10,26 @@ import java.awt.*;
 /**
  * Represents end of game state
  */
-class EndOfGameState extends BaseState {
-
-    EndOfGameState(BoardCtrl context, Ball ball) {
+class EndOfGameState extends BaseState
+{
+    /**
+     * Creates end of game state
+     * @param context link to the controller
+     * @param ball color of the winner
+     */
+    EndOfGameState(BoardCtrl context, Ball ball)
+    {
         super(context, ball);
         context.setLabel(getLabel());
+        context.endOfGame();
     }
 
-
-    String getLabel() {
+    /**
+     * Sets end of game label
+     * @return label
+     */
+    String getLabel()
+    {
         return String.format(GameConstant.WIN_FORMAT, ball.name());
     }
 }

@@ -12,27 +12,46 @@ import java.util.Arrays;
 /**
  * Network connection super class
  */
-abstract class Connection {
+abstract class Connection
+{
     DataOutputStream out;
     BufferedInputStream in;
     Socket socket;
 
-    public void disconnect() throws IOException {
+    /**
+     * Disconnects
+     * @throws IOException
+     */
+    public void disconnect() throws IOException
+    {
         in.close();
         out.close();
         socket.close();
     }
 
-    void send(byte[] msg) throws IOException {
+    /**
+     * Sends the message
+     * @param msg to send
+     * @throws IOException
+     */
+    void send(byte[] msg) throws IOException
+    {
         out.write(msg);
     }
 
-    byte[] read() throws IOException, InterruptedException {
+    /**
+     * Reads the message
+     * @return message
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    byte[] read() throws IOException, InterruptedException
+    {
         byte[] msg = new byte[3];
         int i;
-        for(i = 0; i < GameConstant.TIMEOUT && in.read(msg) <= 0; i++)
+        for (i = 0; i < GameConstant.TIMEOUT && in.read(msg) <= 0; i++)
             Thread.sleep(1000);
-        if(i == GameConstant.TIMEOUT)
+        if (i == GameConstant.TIMEOUT)
             throw new SocketTimeoutException();
         System.out.println(Arrays.toString(msg));
         return msg;

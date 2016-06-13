@@ -5,11 +5,19 @@ import re.neutrino.adele.controllers.MenuCtrl;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.lang.reflect.InvocationTargetException;
+
+import static java.awt.SystemColor.menu;
 
 /**
  * Menu screen layout and events
  */
-public class MenuView {
+public class MenuView
+{
     private JPanel panel = new JPanel();
     private JButton buttonPlay = new JButton(GameConstant.PLAY);
     private JButton buttonPlayOnline = new JButton(GameConstant.PLAY_ONLINE);
@@ -17,14 +25,14 @@ public class MenuView {
     private JLabel labelPentago = new JLabel(GameConstant.PENTAGO);
     private JButton buttonCreateGame = new JButton(GameConstant.CREATE_GAME);
     private JButton buttonJoinGame = new JButton(GameConstant.JOIN_GAME);
-    private JTextField textFieldEnterIP = new JTextField();
-    private JLabel labelEnterIP = new JLabel(GameConstant.EnterIP);
+    private JTextField textField = new JTextField(GameConstant.ENTER_ADDRESS);
 
     /**
      * Draws all of the application buttons
      * @param menuCtrl reference to the controller
      */
-    public MenuView(MenuCtrl menuCtrl) {
+    public MenuView(MenuCtrl menuCtrl)
+    {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(GameConstant.BG_COLOR);
 
@@ -44,7 +52,8 @@ public class MenuView {
      * Initializes menu label
      * @param label to set
      */
-    private void initLabel(JLabel label) {
+    private void initLabel(JLabel label)
+    {
         panel.add(label);
         label.setBackground(GameConstant.BG_DARK_COLOR);
         label.setOpaque(true);
@@ -57,10 +66,11 @@ public class MenuView {
     /**
      * Adds and displays button in the appropriate place on panel
      * @param button to display
-     * @param x x-coordinate
-     * @param y y-coordinate
+     * @param x      x-coordinate
+     * @param y      y-coordinate
      */
-    private void addAndDisplayButton(JButton button, int x, int y) {
+    private void addAndDisplayButton(JButton button, int x, int y)
+    {
         panel.add(Box.createRigidArea(new Dimension(80, 80)));
         panel.add(button);
         button.setBackground(GameConstant.BG_LIGHT_COLOR);
@@ -74,7 +84,8 @@ public class MenuView {
      * Provides access to panel
      * @return panel
      */
-    public JPanel getPanel() {
+    public JPanel getPanel()
+    {
         return panel;
     }
 
@@ -82,7 +93,8 @@ public class MenuView {
      * Creates online mode panel view
      * @param menuCtrl reference to the controller
      */
-    public void createOnlineModeView(MenuCtrl menuCtrl) {
+    public void createOnlineModeView(MenuCtrl menuCtrl)
+    {
         panel.removeAll();
         initLabel(labelPentago);
 
@@ -90,10 +102,34 @@ public class MenuView {
         buttonCreateGame.addActionListener(e -> menuCtrl.createGame());
 
         addAndDisplayButton(buttonJoinGame, 30, 110);
-        buttonJoinGame.addActionListener(e -> menuCtrl.joinGame());
-
+        buttonJoinGame.addActionListener(e -> menuCtrl.joinGame(textField.getText()));
 
         addAndDisplayButton(buttonQuit, 30, 160);
         buttonQuit.addActionListener(e -> menuCtrl.quit());
+
+        panel.add(textField);
+        panel.add(Box.createRigidArea(new Dimension(80, 80)));
+        textField.setBorder(BorderFactory.createEmptyBorder(30, 90, 30, 90));
+
+        textField.addKeyListener(new KeyListener()
+        {
+            @Override
+            public void keyTyped(KeyEvent e)
+            {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e)
+            {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER)
+                    textField.setVisible(false);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e)
+            {
+
+            }
+        });
     }
 }

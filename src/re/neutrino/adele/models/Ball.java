@@ -3,15 +3,20 @@ package re.neutrino.adele.models;
 /**
  * Ball ball enum
  */
-// TODO Rename to Player
-public enum Ball {
+public enum Ball
+{
     NONE,
     WHITE,
     BLACK;
 
-
-    public Ball getOpposite() {
-        switch (this) {
+    /**
+     * Returns opposite color of the ball
+     * @return opposite color
+     */
+    public Ball getOpposite()
+    {
+        switch (this)
+        {
             case WHITE:
                 return BLACK;
             case BLACK:

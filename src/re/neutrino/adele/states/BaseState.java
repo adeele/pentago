@@ -10,18 +10,38 @@ import java.awt.*;
 /**
  * Represents generic state of the game
  */
-public abstract class BaseState {
+public abstract class BaseState
+{
     final BoardCtrl context;
     protected Ball ball;
 
-    BaseState(BoardCtrl context, Ball ball) {
+    /**
+     * Creates state
+     * @param context link to the controller
+     * @param ball color of the turn
+     */
+    BaseState(BoardCtrl context, Ball ball)
+    {
         this.context = context;
         this.ball = ball;
     }
-    public void handleClick(Circle[] circles, Rectangle[] arrows, Point point) {
+
+    /**
+     * Children has to implement handle click method
+     * @param circles array of the ball places
+     * @param arrows array of the arrows coordinates
+     * @param point clicked
+     */
+    public void handleClick(Circle[] circles, Rectangle[] arrows, Point point)
+    {
     }
 
-    String getLabel() {
+    /**
+     * Sets label of the turn
+     * @return label
+     */
+    String getLabel()
+    {
         return String.format(GameConstant.TURN_FORMAT, ball.name());
     }
 }

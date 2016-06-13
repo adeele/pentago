@@ -3,22 +3,21 @@ package re.neutrino.adele.controllers;
 import re.neutrino.adele.GameConstant;
 
 import javax.swing.*;
-import java.util.Arrays;
 
 /**
  * Starts app
  */
-public class App {
-    // TODO checkout docs
-    // TODO remove useless imports
+public class App
+{
     private final JFrame rootFrame = new JFrame(GameConstant.PENTAGO);
     private final MenuCtrl menuCtrl;
     private NetworkCtrl networkCtrl;
 
     /**
-     * App constructor
+     * Creates menu controller which manages menu
      */
-    public App() {
+    public App()
+    {
         menuCtrl = new MenuCtrl(this);
         menuCtrl.attachToFrame(rootFrame);
         rootFrame.setBounds(500, 150, 800, 800);
@@ -28,32 +27,44 @@ public class App {
     /**
      * Starts new game
      */
-    void startGame() {
+    void startGame()
+    {
         menuCtrl.detachFromFrame(rootFrame);
         BoardCtrl boardCtrl = new BoardCtrl(this);
         boardCtrl.attachToFrame(rootFrame);
         rootFrame.setVisible(true);
     }
 
-    void startGameServer() {
+    /**
+     * Starts network server game
+     */
+    void startGameServer()
+    {
         menuCtrl.detachFromFrame(rootFrame);
         networkCtrl = new NetworkCtrl();
-        BoardCtrl boardCtrl = new BoardCtrl(this, networkCtrl, GameConstant.SERVER);
+        BoardCtrl boardCtrl = new BoardCtrl(this, networkCtrl, GameConstant.SERVER, null);
         boardCtrl.attachToFrame(rootFrame);
         rootFrame.setVisible(true);
     }
 
-    void startGameClient() {
+    /**
+     * Starts network client game with given host IP address
+     * @param address of the server
+     */
+    void startGameClient(String address)
+    {
         menuCtrl.detachFromFrame(rootFrame);
         networkCtrl = new NetworkCtrl();
-        BoardCtrl boardCtrl = new BoardCtrl(this, networkCtrl, GameConstant.CLIENT);
+        BoardCtrl boardCtrl = new BoardCtrl(this, networkCtrl, GameConstant.CLIENT, address);
         boardCtrl.attachToFrame(rootFrame);
         rootFrame.setVisible(true);
     }
+
     /**
      * Exits game
      */
-    void exitGame() {
+    void exitGame()
+    {
         rootFrame.dispose();
     }
 }

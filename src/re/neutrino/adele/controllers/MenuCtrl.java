@@ -8,40 +8,77 @@ import javax.swing.*;
  * Class MenuCtrl
  * controller for MenuView class
  */
-public class MenuCtrl {
-
+public class MenuCtrl
+{
     private final MenuView menuView;
     private final App app;
 
-    MenuCtrl(App app) {
+    /**
+     * Creates menu view
+     * @param app link to the application
+     */
+    MenuCtrl(App app)
+    {
         this.app = app;
         menuView = new MenuView(this);
     }
-    public void buttonPlayCtrl(){
+
+    /**
+     * Starts game on button click
+     */
+    public void buttonPlayCtrl()
+    {
         app.startGame();
     }
 
-    void attachToFrame(JFrame rootFrame) {
+    /**
+     * Attaches panel to the view
+     * @param rootFrame to add panel
+     */
+    void attachToFrame(JFrame rootFrame)
+    {
         rootFrame.add(menuView.getPanel());
     }
 
-    void detachFromFrame(JFrame rootFrame) {
+    /**
+     * Detaches panel to the panel
+     * @param rootFrame to add panel
+     */
+    void detachFromFrame(JFrame rootFrame)
+    {
         rootFrame.remove(menuView.getPanel());
     }
 
-    public void quit() {
+    /**
+     * Exits game
+     */
+    public void quit()
+    {
         app.exitGame();
     }
 
-    public void buttonPlayOnlineCtrl() {
+    /**
+     * Starts network game on button click
+     */
+    public void buttonPlayOnlineCtrl()
+    {
         menuView.createOnlineModeView(this);
     }
 
-    public void joinGame() {
-        app.startGameClient();
+    /**
+     * Joins to the existing network game
+     * @param address to connect
+     */
+    public void joinGame(String address)
+    {
+        app.startGameClient(address);
     }
 
-    public void createGame() {
+    /**
+     * Creates network game
+     */
+    public void createGame()
+    {
         app.startGameServer();
     }
 }
