@@ -1,4 +1,4 @@
-package re.neutrino.adele.controllers;
+package re.neutrino.adele.models.network;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 /**
  * Network server
  */
-class ServerConnection extends Connection
+public class ServerConnection extends Connection
 {
     private final ServerSocket serverSocket;
 
@@ -15,7 +15,7 @@ class ServerConnection extends Connection
      * @param port on with set connection
      * @throws IOException
      */
-    ServerConnection(int port) throws IOException
+    public ServerConnection(int port) throws IOException
     {
         serverSocket = new ServerSocket(port);
         socket = serverSocket.accept();

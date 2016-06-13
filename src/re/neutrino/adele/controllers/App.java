@@ -1,6 +1,7 @@
 package re.neutrino.adele.controllers;
 
 import re.neutrino.adele.GameConstant;
+import re.neutrino.adele.controllers.network.NetworkCtrl;
 
 import javax.swing.*;
 

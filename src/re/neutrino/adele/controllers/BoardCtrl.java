@@ -1,8 +1,14 @@
 package re.neutrino.adele.controllers;
 
+import re.neutrino.adele.controllers.network.NetworkCtrl;
+import re.neutrino.adele.controllers.network.ReadHandler;
 import re.neutrino.adele.models.Ball;
-import re.neutrino.adele.states.*;
+import re.neutrino.adele.controllers.states.*;
 import re.neutrino.adele.models.BoardModel;
+import re.neutrino.adele.models.network.BallMove;
+import re.neutrino.adele.models.network.BaseState;
+import re.neutrino.adele.models.network.ByteRepresentable;
+import re.neutrino.adele.models.network.RotateMove;
 import re.neutrino.adele.views.BoardView;
 import re.neutrino.adele.views.Circle;
 

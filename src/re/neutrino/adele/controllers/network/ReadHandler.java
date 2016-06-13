@@ -1,9 +1,9 @@
-package re.neutrino.adele.controllers;
+package re.neutrino.adele.controllers.network;
 
 /**
  * Handler of the reading
  */
-interface ReadHandler
+public interface ReadHandler
 {
     /**
      * Has to handle success

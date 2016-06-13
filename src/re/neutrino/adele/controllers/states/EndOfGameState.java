@@ -1,11 +1,9 @@
-package re.neutrino.adele.states;
+package re.neutrino.adele.controllers.states;
 
 import re.neutrino.adele.GameConstant;
 import re.neutrino.adele.controllers.BoardCtrl;
 import re.neutrino.adele.models.Ball;
-import re.neutrino.adele.views.Circle;
-
-import java.awt.*;
+import re.neutrino.adele.models.network.BaseState;
 
 /**
  * Represents end of game state
@@ -28,7 +26,7 @@ class EndOfGameState extends BaseState
      * Sets end of game label
      * @return label
      */
-    String getLabel()
+    protected String getLabel()
     {
         return String.format(GameConstant.WIN_FORMAT, ball.name());
     }

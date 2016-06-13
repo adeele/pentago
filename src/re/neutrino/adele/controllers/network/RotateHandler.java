@@ -1,6 +1,6 @@
-package re.neutrino.adele.controllers;
+package re.neutrino.adele.controllers.network;
 
-import re.neutrino.adele.states.RotateMove;
+import re.neutrino.adele.models.network.RotateMove;
 
 /**
  * Handler of the rotate

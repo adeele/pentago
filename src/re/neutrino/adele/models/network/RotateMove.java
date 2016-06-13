@@ -1,8 +1,6 @@
-package re.neutrino.adele.states;
+package re.neutrino.adele.models.network;
 
 import re.neutrino.adele.GameConstant;
-
-import java.awt.*;
 
 /**
  * Rotation board move

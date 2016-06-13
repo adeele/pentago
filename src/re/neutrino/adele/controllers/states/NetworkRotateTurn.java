@@ -1,8 +1,10 @@
-package re.neutrino.adele.states;
+package re.neutrino.adele.controllers.states;
 
-import re.neutrino.adele.controllers.RotateHandler;
+import re.neutrino.adele.controllers.network.RotateHandler;
 import re.neutrino.adele.models.Ball;
 import re.neutrino.adele.controllers.BoardCtrl;
+import re.neutrino.adele.models.network.BaseState;
+import re.neutrino.adele.models.network.RotateMove;
 
 /**
  * Represents network state of game while there is a rotation turn

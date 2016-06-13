@@ -1,6 +1,6 @@
-package re.neutrino.adele.controllers;
+package re.neutrino.adele.controllers.network;
 
-import re.neutrino.adele.states.BallMove;
+import re.neutrino.adele.models.network.BallMove;
 
 /**
  * Handler that provides asynchronous handling ball placing

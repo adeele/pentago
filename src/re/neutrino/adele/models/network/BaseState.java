@@ -1,4 +1,4 @@
-package re.neutrino.adele.states;
+package re.neutrino.adele.models.network;
 
 import re.neutrino.adele.GameConstant;
 import re.neutrino.adele.models.Ball;
@@ -12,7 +12,7 @@ import java.awt.*;
  */
 public abstract class BaseState
 {
-    final BoardCtrl context;
+    protected final BoardCtrl context;
     protected Ball ball;
 
     /**
@@ -20,7 +20,7 @@ public abstract class BaseState
      * @param context link to the controller
      * @param ball color of the turn
      */
-    BaseState(BoardCtrl context, Ball ball)
+    protected BaseState(BoardCtrl context, Ball ball)
     {
         this.context = context;
         this.ball = ball;
@@ -40,7 +40,7 @@ public abstract class BaseState
      * Sets label of the turn
      * @return label
      */
-    String getLabel()
+    protected String getLabel()
     {
         return String.format(GameConstant.TURN_FORMAT, ball.name());
     }

@@ -1,4 +1,6 @@
-package re.neutrino.adele.controllers;
+package re.neutrino.adele.models.network;
+
+import re.neutrino.adele.models.network.Connection;
 
 import java.io.BufferedInputStream;
 import java.io.DataOutputStream;
@@ -8,7 +10,7 @@ import java.net.Socket;
 /**
  * Network client
  */
-class ClientConnection extends Connection
+public class ClientConnection extends Connection
 {
     /**
      * Creates connection of the client side
@@ -16,7 +18,7 @@ class ClientConnection extends Connection
      * @param port of the connection
      * @throws IOException
      */
-    ClientConnection(String address, int port) throws IOException
+    public ClientConnection(String address, int port) throws IOException
     {
         socket = new Socket(address, port);
         out = new DataOutputStream(socket.getOutputStream());

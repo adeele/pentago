@@ -1,4 +1,4 @@
-package re.neutrino.adele.states;
+package re.neutrino.adele.models.network;
 
 /**
  * Ability to translate oneself to bytes

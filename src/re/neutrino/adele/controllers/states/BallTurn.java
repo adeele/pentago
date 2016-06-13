@@ -1,7 +1,9 @@
-package re.neutrino.adele.states;
+package re.neutrino.adele.controllers.states;
 
 import re.neutrino.adele.controllers.BoardCtrl;
 import re.neutrino.adele.models.Ball;
+import re.neutrino.adele.models.network.BallMove;
+import re.neutrino.adele.models.network.BaseState;
 import re.neutrino.adele.views.Circle;
 
 import java.awt.*;

@@ -1,8 +1,10 @@
-package re.neutrino.adele.states;
+package re.neutrino.adele.controllers.states;
 
-import re.neutrino.adele.controllers.BallHandler;
+import re.neutrino.adele.controllers.network.BallHandler;
 import re.neutrino.adele.models.Ball;
 import re.neutrino.adele.controllers.BoardCtrl;
+import re.neutrino.adele.models.network.BallMove;
+import re.neutrino.adele.models.network.BaseState;
 
 /**
  * Represents network state while there is a ball turn

@@ -1,7 +1,10 @@
-package re.neutrino.adele.controllers;
+package re.neutrino.adele.controllers.network;
 
 import re.neutrino.adele.GameConstant;
-import re.neutrino.adele.states.ByteRepresentable;
+import re.neutrino.adele.models.network.ByteRepresentable;
+import re.neutrino.adele.models.network.ClientConnection;
+import re.neutrino.adele.models.network.Connection;
+import re.neutrino.adele.models.network.ServerConnection;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -18,7 +21,7 @@ public class NetworkCtrl
      * @param address to connect
      * @throws IOException
      */
-    void connect(String address) throws IOException
+    public void connect(String address) throws IOException
     {
         if (conn != null)
             disconnect();
@@ -29,7 +32,7 @@ public class NetworkCtrl
      * Creates new connection
      * @throws IOException
      */
-    void listen() throws IOException
+    public void listen() throws IOException
     {
         if (conn != null)
             disconnect();
@@ -40,7 +43,7 @@ public class NetworkCtrl
      * Reads message asynchronously
      * @param handler which manages reading
      */
-    void readAsync(ReadHandler handler)
+    public void readAsync(ReadHandler handler)
     {
         new Thread(() -> {
             try
@@ -71,7 +74,7 @@ public class NetworkCtrl
      * @param move to send
      * @throws IOException
      */
-    void submitMove(ByteRepresentable move) throws IOException
+    public void submitMove(ByteRepresentable move) throws IOException
     {
         checkConn();
         byte[] msg = move.toBytes();

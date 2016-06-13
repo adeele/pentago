@@ -1,4 +1,4 @@
-package re.neutrino.adele.controllers;
+package re.neutrino.adele.models.network;
 
 import re.neutrino.adele.GameConstant;
 
@@ -12,7 +12,7 @@ import java.util.Arrays;
 /**
  * Network connection super class
  */
-abstract class Connection
+public abstract class Connection
 {
     DataOutputStream out;
     BufferedInputStream in;
@@ -34,7 +34,7 @@ abstract class Connection
      * @param msg to send
      * @throws IOException
      */
-    void send(byte[] msg) throws IOException
+    public void send(byte[] msg) throws IOException
     {
         out.write(msg);
     }
@@ -45,7 +45,7 @@ abstract class Connection
      * @throws IOException
      * @throws InterruptedException
      */
-    byte[] read() throws IOException, InterruptedException
+    public byte[] read() throws IOException, InterruptedException
     {
         byte[] msg = new byte[3];
         int i;
